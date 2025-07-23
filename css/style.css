@@ -2,44 +2,45 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #001f3f;
-    color: white;
+    padding: 1em 2em;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
 }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1em;
+.logo {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #223344;
 }
 
 nav a {
-    color: white;
+    margin-left: 1em;
     text-decoration: none;
+    color: #444;
 }
 
 .hero {
+    background: url('../images/hero.svg') center/cover no-repeat;
+    color: #fff;
     text-align: center;
-    padding: 60px 20px;
-    background: #f4f4f4;
+    padding: 5em 2em;
 }
 
-.hero .cta {
+.cta-button {
     display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #007bff;
-    color: white;
+    margin-top: 1em;
+    padding: 0.75em 1.5em;
+    background: limegreen;
+    color: #fff;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 section {
@@ -49,4 +50,27 @@ section {
 #services ul {
     list-style: disc;
     margin-left: 20px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.75em 1.5em;
+    border-radius: 4px;
+    cursor: pointer;
 }
