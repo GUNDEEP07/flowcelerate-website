@@ -1,76 +1,26 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+.service-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+.service-box {
+  flex: 1 1 30%;
+  background: #f7f9fa;
+  padding: 1.5em;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em 2em;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
+.cta-contact {
+  background: #223344;
+  color: white;
+  text-align: center;
+  padding: 4em 2em;
+}
+.cta-contact h2 {
+  font-size: 1.8em;
+  margin-bottom: 1em;
 }
 
-.logo {
-    font-weight: bold;
-    font-size: 1.5em;
-    color: #223344;
-}
-
-nav a {
-    margin-left: 1em;
-    text-decoration: none;
-    color: #444;
-}
-
-.hero {
-    background: url('../images/hero.svg') center/cover no-repeat;
-    color: #fff;
-    text-align: center;
-    padding: 5em 2em;
-}
-
-.cta-button {
-    display: inline-block;
-    margin-top: 1em;
-    padding: 0.75em 1.5em;
-    background: limegreen;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-section {
-    padding: 40px 20px;
-}
-
-#services ul {
-    list-style: disc;
-    margin-left: 20px;
-}
-
-form {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-form input,
-form textarea {
-    width: 100%;
-    padding: 0.5em;
-    margin-bottom: 1em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-form button {
-    background: #007bff;
-    color: #fff;
-    border: none;
-    padding: 0.75em 1.5em;
-    border-radius: 4px;
-    cursor: pointer;
-}
