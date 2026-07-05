@@ -87,6 +87,8 @@ const services = [
             badgeColor: 'bg-red-50 text-red-700 border-red-100',
             desc: 'Evaluate your CMDB & CSDM mapping maturity against DORA Chapter V obligations. Identify gaps in technical CI mapping for your critical business applications.',
             deliverables: ['Detailed regulatory gap report', 'CSDM Service Mapping blueprint', 'Operational resilience dashboard mockups'],
+            href: '/contact',
+            actionText: 'Inquire Package',
           },
           {
             title: 'SAM Pro License Audit Defense',
@@ -96,6 +98,8 @@ const services = [
             badgeColor: 'bg-teal-50 text-teal-700 border-teal-100',
             desc: 'Entitlement reconciliation and deployment audit prep for high-exposure publishers (Oracle, Microsoft, IBM). Identify licensing waste and true-up risks.',
             deliverables: ['Effective License Position (ELP) scorecard', 'Licensing waste reclamation plan', 'Publisher audit response playbook'],
+            href: '/contact',
+            actionText: 'Inquire Package',
           },
           {
             title: 'ServiceNow AI & Agentic Strategy',
@@ -105,6 +109,8 @@ const services = [
             badgeColor: 'bg-blue-50 text-blue-700 border-blue-100',
             desc: 'Design Now Assist and Flow Designer GenAI architectures with built-in model risk boundaries. Ensure your automated flows clear internal compliance gates.',
             deliverables: ['GenAI flow design blueprint', 'Model risk assessment templates', 'Confidence-routing governance flowcharts'],
+            href: '/contact',
+            actionText: 'Inquire Package',
           },
           {
             title: 'Fractional CTA Peer Review Retainer',
@@ -114,6 +120,30 @@ const services = [
             badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-100',
             desc: 'Independent architectural oversight of your platform roadmap. We review technical designs and code delivered by your implementation partner to prevent technical debt.',
             deliverables: ['Bi-weekly design review calls', 'Independent build quality audits', 'Strategic roadmap alignment reviews'],
+            href: '/contact',
+            actionText: 'Inquire Retainer',
+          },
+          {
+            title: '1-Hour Architecture Review',
+            scope: 'Live 1-on-1 Session',
+            pricing: '£250 (Credited Back)',
+            badge: 'On-Demand Advisory',
+            badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+            desc: 'A focused, live session to troubleshoot a specific CMDB discovery block, review a vendor design proposal, or audit a custom integration blueprint.',
+            deliverables: ['Live screenshare troubleshooting', 'Written architecture feedback report', 'Full credit toward any audit or retainer signed'],
+            href: '/book',
+            actionText: 'Book Review',
+          },
+          {
+            title: 'Slack-a-CTA Support Retainer',
+            scope: 'Micro-Advisory Retainer',
+            pricing: '£950 / Month',
+            badge: 'On-Demand Support',
+            badgeColor: 'bg-amber-50 text-amber-700 border-amber-100',
+            desc: 'Direct, unlimited Slack/Teams access to a Certified Technical Architect (CTA) for your internal ServiceNow admin and development team.',
+            deliverables: ['Guaranteed <24h response time', 'Unlimited architecture & CSDM Q&A', 'Neutral code reviews without meeting overhead'],
+            href: '/contact',
+            actionText: 'Subscribe Retainer',
           },
         ].map((pkg) => (
           <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8 hover:border-accent/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
@@ -145,10 +175,10 @@ const services = [
             <div class="border-t border-slate-200/60 pt-5 flex items-center justify-between gap-4">
               <span class="text-sm font-bold text-navy-900 uppercase tracking-wider font-mono">{pkg.pricing}</span>
               <a
-                href="/contact"
+                href={pkg.href}
                 class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-md shadow-blue-500/10"
               >
-                Inquire Package
+                {pkg.actionText}
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>

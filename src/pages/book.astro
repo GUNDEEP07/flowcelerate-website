@@ -36,6 +36,65 @@ import CalendlyInline from '../components/CalendlyInline.astro';
     </div>
   </section>
 
+  <!-- Session Type Selection Cards -->
+  <section class="py-16 bg-slate-50 border-b border-slate-200" aria-labelledby="session-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 id="session-heading" class="font-display font-800 text-2xl sm:text-3xl text-navy-900 text-center mb-8">
+        Choose your consultation type
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <!-- Free Discovery Call -->
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl flex flex-col justify-between hover:shadow-md transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 border border-slate-200 rounded-md">Free Session</span>
+              <span class="text-xs font-mono font-semibold text-slate-400">30 MINUTES</span>
+            </div>
+            <h3 class="font-display font-700 text-navy-900 text-lg mb-2">Discovery Call</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 font-sans">
+              To discuss high-ticket project scopes, compliance assessments, or long-term advisor retainers. Perfect if you want to explore how Flowcelerate can support your wider organization.
+            </p>
+          </div>
+          <div class="border-t border-slate-100 pt-4 flex items-center justify-between">
+            <span class="text-sm font-bold text-navy-900 uppercase font-mono">Free</span>
+            <span class="text-xs font-semibold text-accent">Schedule below &darr;</span>
+          </div>
+        </div>
+
+        <!-- Paid Architecture Review -->
+        <div class="bg-white border-2 border-accent p-6 rounded-2xl flex flex-col justify-between shadow-lg shadow-blue-500/5 hover:shadow-xl transition-all relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-bl-full pointer-events-none" aria-hidden="true"></div>
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent bg-accent-50 border border-accent-100 rounded-md">1-on-1 Advisory</span>
+              <span class="text-xs font-mono font-semibold text-accent">60 MINUTES</span>
+            </div>
+            <h3 class="font-display font-700 text-navy-900 text-lg mb-2">1-Hour Architecture Review</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 font-sans">
+              Live screenshare diagnostic session. Bring your specific ServiceNow discovery configuration failures, integration architecture blockages, or third-party vendor design specifications.
+            </p>
+          </div>
+          <div class="border-t border-slate-100 pt-4 flex items-center justify-between">
+            <span class="text-sm font-bold text-navy-900 uppercase font-mono">£250 (Credited Back)</span>
+            <a href="/contact?subject=Paid%20Architecture%20Review" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors">
+              Book Review
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 text-center max-w-xl mx-auto">
+        <p class="text-xs text-slate-500 font-sans italic">
+          * Note: The £250 review fee is 100% credited back toward your invoice if you proceed to sign any Flowcelerate DORA audit, SAM Pro audit, or steering advisor retainer package.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Calendly embed -->
   <section class="py-16 bg-slate-50" aria-labelledby="calendly-heading">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

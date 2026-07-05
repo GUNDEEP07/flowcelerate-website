@@ -164,6 +164,103 @@ const upcomingWorkshops = allWorkshops.filter(w => w.data.openEnrollment).slice(
     </section>
   )}
 
+  <!-- Digital Toolkits Store Catalog -->
+  <section class="py-20 bg-slate-50 border-t border-b border-slate-200/60" aria-labelledby="toolkits-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Digital Products</p>
+        <h2 id="toolkits-heading" class="font-display font-800 text-3xl sm:text-4xl text-navy-900">
+          Compliance & Licensing Toolkits
+        </h2>
+        <p class="mt-4 text-slate-600 text-lg font-sans">
+          Downloadable configurations, Excel matrices, and standard operating blueprints to kickstart your implementations without full-scale advisory fees.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- DORA CMDB Toolkit -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-50 border border-red-100 rounded-md">Update Sets & Assets</span>
+              <span class="text-xs font-mono font-semibold text-slate-400">INSTANT ACCESS</span>
+            </div>
+            <h3 class="font-display font-800 text-navy-900 text-xl sm:text-2xl mb-3">DORA CMDB Compliance Toolkit</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 font-sans">
+              Jumpstart your Operational Resilience reporting. Contains ready-to-import XML Update Sets for configuration dashboard health, template spreadsheets for mapping CI ownership, and model walkthrough videos.
+            </p>
+            <ul class="space-y-2.5 mb-8 border-t border-slate-100 pt-6">
+              {[
+                'ServiceNow Update Set XML (Health Prefs)',
+                'Important Business Services (IBS) mapping matrix',
+                'Operational Resilience dashboard schema guides',
+              ].map(item => (
+                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 font-sans">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="mt-0.5 shrink-0" aria-hidden="true">
+                    <path d="M2 7L5.5 10.5L12 3.5" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="border-t border-slate-100 pt-5 flex items-center justify-between gap-4">
+            <span class="text-lg font-bold text-navy-900 font-mono">£199</span>
+            <a
+              href="/contact?subject=Purchase%20DORA%20CMDB%20Toolkit"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-md shadow-blue-500/10"
+            >
+              Get Toolkit
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- SAM Pro Toolkit -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 border border-teal-100 rounded-md">Blueprints & Playbooks</span>
+              <span class="text-xs font-mono font-semibold text-slate-400">INSTANT ACCESS</span>
+            </div>
+            <h3 class="font-display font-800 text-navy-900 text-xl sm:text-2xl mb-3">SAM Pro Publisher Defensibility Toolkit</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 font-sans">
+              Defend your virtualized software clusters against aggressive publisher audits. Contains Oracle processor-core calculation sheets, Azure Hybrid benefit templates, and publisher audit response playbook SOPs.
+            </p>
+            <ul class="space-y-2.5 mb-8 border-t border-slate-100 pt-6">
+              {[
+                'Oracle core metrics & processor calculation sheet',
+                'Microsoft EA & Azure hybrid reconciliation workbook',
+                'Audit response Standard Operating Procedures (SOPs)',
+              ].map(item => (
+                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 font-sans">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="mt-0.5 shrink-0" aria-hidden="true">
+                    <path d="M2 7L5.5 10.5L12 3.5" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="border-t border-slate-100 pt-5 flex items-center justify-between gap-4">
+            <span class="text-lg font-bold text-navy-900 font-mono">£249</span>
+            <a
+              href="/contact?subject=Purchase%20SAM%20Pro%20Defensibility%20Toolkit"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-md shadow-blue-500/10"
+            >
+              Get Toolkit
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Upcoming workshops -->
   {upcomingWorkshops.length > 0 && (
     <section class="py-20 bg-slate-50" aria-labelledby="workshops-feat-heading">
