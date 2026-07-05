@@ -1,0 +1,113 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const services = [
+  {
+    icon: '⚙️',
+    title: 'ITSM Transformation',
+    description: 'Incident, problem, change, and request management redesigned around your regulatory obligations and service tiers — not generic ITIL theory.',
+    href: '/services/itsm',
+    tags: ['Incident Management', 'Change Advisory', 'ITIL 4', 'SLA Design', 'Problem Management'],
+  },
+  {
+    icon: '🖥️',
+    title: 'SAM Pro',
+    description: 'Software asset management that survives an audit. Entitlement reconciliation, publisher compliance, and renewal forecasting for complex enterprise estates.',
+    href: '/services/sam-pro',
+    tags: ['Entitlements', 'Discovery Integration', 'Publisher Compliance', 'Renewal Forecasting'],
+  },
+  {
+    icon: '🗂️',
+    title: 'CMDB / CSDM',
+    description: 'A CMDB architecture grounded in the Common Service Data Model — built for operational resilience reporting, not just asset inventory.',
+    href: '/services/cmdb-csdm',
+    tags: ['CSDM', 'Service Mapping', 'Discovery', 'DORA', 'Operational Resilience'],
+  },
+  {
+    icon: '🤖',
+    title: 'AI & Agentic Architecture',
+    description: 'Flow Designer orchestration with Now Assist and GenAI actions — agentic workflows that hold up under financial services governance requirements.',
+    href: '/services/ai-architecture',
+    tags: ['Now Assist', 'Skill Builder', 'Flow Designer', 'GenAI', 'Human-in-the-Loop'],
+  },
+];
+---
+
+<Layout
+  title="Services — Flowcelerate"
+  description="ServiceNow consulting services for insurance and financial services: ITSM, SAM Pro, CMDB/CSDM, and AI architecture from a Certified Technical Architect."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="services-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">Services</p>
+        <h1 id="services-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Four focused practice areas. One platform.
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Each service is designed around the specific business problems insurance and financial services enterprises face on ServiceNow — not adapted from a generic enterprise playbook.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-slate-50" aria-label="Service areas">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {services.map((s) => (
+          <ServiceCard {...s} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How engagements work -->
+  <section class="py-20 bg-white" aria-labelledby="engagement-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Engagement model</p>
+        <h2 id="engagement-heading" class="font-display font-800 text-3xl sm:text-4xl text-navy-900 text-balance">
+          How a Flowcelerate engagement works
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {[
+          {
+            step: '01',
+            title: 'Discovery',
+            body: 'A structured assessment of your current platform state, pain points, and objectives. Delivered as a written report with prioritised findings.',
+          },
+          {
+            step: '02',
+            title: 'Architecture Design',
+            body: 'A documented design covering data model, process flows, integrations, and governance. Reviewed and agreed before build begins.',
+          },
+          {
+            step: '03',
+            title: 'Build & Validate',
+            body: 'Implementation against the agreed design, with test scripts and review checkpoints at each milestone.',
+          },
+          {
+            step: '04',
+            title: 'Handover',
+            body: 'Knowledge transfer, operational documentation, and a structured transition to your internal team or nominated support partner.',
+          },
+        ].map((phase) => (
+          <div class="relative p-6 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="font-display font-800 text-5xl text-slate-200 absolute top-4 right-5" aria-hidden="true">
+              {phase.step}
+            </span>
+            <h3 class="font-display font-700 text-lg text-navy-900 mb-2 relative">{phase.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed relative">{phase.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</Layout>

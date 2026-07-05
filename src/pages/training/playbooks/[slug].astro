@@ -1,0 +1,126 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PlaybookGate from '../../../components/PlaybookGate.astro';
+import CTASection from '../../../components/CTASection.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const playbooks = await getCollection('playbooks', ({ data }) => !data.draft);
+  return playbooks.map(p => ({ params: { slug: p.id }, props: { playbook: p } }));
+}
+
+const { playbook } = Astro.props;
+const { Content } = await render(playbook);
+
+const trackColour = playbook.data.track === 'practitioner'
+  ? 'text-accent bg-accent-50'
+  : 'text-teal bg-teal/10';
+---
+
+<Layout
+  title={`${playbook.data.title} — Flowcelerate`}
+  description={playbook.data.description}
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="pb-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/training" class="hover:text-white transition-colors">Training</a>
+        <span aria-hidden="true">/</span>
+        <a href="/training/playbooks" class="hover:text-white transition-colors">Playbooks</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-slate-300 line-clamp-1">Playbook</span>
+      </nav>
+
+      <div class="flex flex-wrap gap-2 mb-5">
+        <span class:list={['px-2.5 py-1 text-xs font-semibold rounded-full capitalize', trackColour]}>
+          {playbook.data.track}
+        </span>
+        {playbook.data.gated && (
+          <span class="px-2.5 py-1 text-xs font-medium text-slate-300 bg-white/10 rounded-full">Free download</span>
+        )}
+        {playbook.data.pages && (
+          <span class="px-2.5 py-1 text-xs font-medium text-slate-300 bg-white/10 rounded-full">~{playbook.data.pages} pages</span>
+        )}
+      </div>
+
+      <h1 id="pb-heading" class="font-display font-800 text-3xl sm:text-4xl lg:text-5xl text-white leading-tight text-balance">
+        {playbook.data.title}
+      </h1>
+      <p class="mt-5 text-slate-300 text-lg leading-relaxed max-w-2xl">
+        {playbook.data.previewExcerpt}
+      </p>
+    </div>
+  </section>
+
+  {playbook.data.topics.length > 0 && (
+    <div class="bg-navy-800 border-y border-white/10">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-wrap gap-2">
+          {playbook.data.topics.map(t => (
+            <span class="px-2.5 py-1 text-xs font-medium text-slate-300 bg-white/10 rounded-full">{t}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+
+  <div class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <article class="lg:col-span-2 prose prose-slate prose-lg max-w-none
+          prose-headings:font-display prose-headings:font-700 prose-headings:text-navy-900 prose-headings:tracking-tight
+          prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+          prose-p:text-slate-700 prose-p:leading-relaxed
+          prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+          prose-ul:text-slate-700 prose-li:my-0.5
+          prose-strong:text-navy-900 prose-ol:text-slate-700">
+          <Content />
+        </article>
+
+        <aside class="lg:col-span-1">
+          <div class="sticky top-24">
+            {playbook.data.gated ? (
+              <PlaybookGate
+                playbookId={playbook.id}
+                playbookTitle={playbook.data.title}
+                track={playbook.data.track}
+                s3Key={playbook.data.s3Key}
+              />
+            ) : playbook.data.downloadUrl ? (
+              <div class="p-6 bg-accent-50 border border-accent-100 rounded-xl text-center">
+                <p class="font-display font-700 text-navy-900 mb-3">Download free</p>
+                <a
+                  href={playbook.data.downloadUrl}
+                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-accent-dark text-white text-sm font-semibold rounded-lg transition-colors"
+                  download
+                >
+                  Download PDF
+                </a>
+              </div>
+            ) : null}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-slate-50 border-t border-slate-100 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a href="/training/playbooks" class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-dark transition-colors">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M11 7H3M7 3L3 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Playbooks
+      </a>
+    </div>
+  </div>
+
+  <CTASection
+    headline="Want the full picture?"
+    body="This playbook covers one domain. A discovery call can help you understand where your platform stands across ITSM, SAM Pro, CMDB, and AI — and what to prioritise."
+    ctaLabel="Book a Discovery Call"
+    secondaryLabel="View Services"
+    secondaryHref="/services"
+  />
+</Layout>

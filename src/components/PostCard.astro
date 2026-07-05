@@ -1,0 +1,58 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  tags?: string[];
+  readingTime?: number;
+}
+
+const { title, description, pubDate, slug, tags = [], readingTime } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="group flex flex-col p-6 bg-white border border-slate-200 rounded-xl hover:border-accent/40 hover:shadow-lg hover:shadow-blue-500/8 transition-all duration-200">
+  <!-- Tags -->
+  {tags.length > 0 && (
+    <div class="flex flex-wrap gap-1.5 mb-3">
+      {tags.map((tag) => (
+        <span class="px-2 py-0.5 text-xs font-medium text-accent bg-accent-50 rounded-full">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
+
+  <!-- Title -->
+  <h3 class="font-display font-700 text-navy-900 text-lg leading-snug mb-2 group-hover:text-accent transition-colors duration-150 text-balance">
+    <a href={`/insights/${slug}`} class="stretched-link">
+      {title}
+    </a>
+  </h3>
+
+  <!-- Description -->
+  <p class="text-slate-600 text-sm leading-relaxed flex-1 mb-4">{description}</p>
+
+  <!-- Meta -->
+  <div class="flex items-center justify-between text-xs text-slate-400 pt-4 border-t border-slate-100">
+    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+    {readingTime && <span>{readingTime} min read</span>}
+  </div>
+</article>
+
+<style>
+  .stretched-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  article {
+    position: relative;
+  }
+</style>

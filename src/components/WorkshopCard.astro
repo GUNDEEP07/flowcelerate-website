@@ -1,0 +1,79 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  track: 'practitioner' | 'leadership';
+  format: 'live-virtual' | 'in-house' | 'recorded';
+  duration: string;
+  price: string;
+  maxParticipants?: number;
+  nextDate?: Date;
+  openEnrollment?: boolean;
+  href: string;
+}
+
+const {
+  title, description, track, format, duration,
+  price, maxParticipants, nextDate, openEnrollment = false, href,
+} = Astro.props;
+
+const trackColour = track === 'practitioner'
+  ? 'text-accent bg-accent-50'
+  : 'text-teal bg-teal/10';
+
+const formatLabel: Record<string, string> = {
+  'live-virtual': 'Live virtual',
+  'in-house': 'In-house',
+  'recorded': 'On-demand',
+};
+
+const nextDateFormatted = nextDate?.toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+
+<a
+  href={href}
+  class="group flex flex-col p-6 bg-white border border-slate-200 rounded-xl hover:border-accent/40 hover:shadow-lg hover:shadow-blue-500/8 transition-all duration-200"
+  aria-label={`View workshop: ${title}`}
+>
+  <div class="flex items-center gap-2 mb-4 flex-wrap">
+    <span class:list={['px-2 py-0.5 text-xs font-semibold rounded-full capitalize', trackColour]}>
+      {track}
+    </span>
+    <span class="px-2 py-0.5 text-xs font-medium text-slate-500 bg-slate-100 rounded-full">
+      {formatLabel[format]}
+    </span>
+    {openEnrollment && nextDateFormatted && (
+      <span class="px-2 py-0.5 text-xs font-medium text-emerald-700 bg-emerald-50 rounded-full">
+        {nextDateFormatted}
+      </span>
+    )}
+  </div>
+
+  <h3 class="font-display font-700 text-navy-900 text-lg leading-snug mb-2 group-hover:text-accent transition-colors duration-150 text-balance">
+    {title}
+  </h3>
+
+  <p class="text-slate-600 text-sm leading-relaxed flex-1 mb-4">{description}</p>
+
+  <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+    <div class="flex items-center gap-3 text-xs text-slate-400 flex-wrap">
+      <span>{duration}</span>
+      {maxParticipants && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>Max {maxParticipants}</span>
+        </>
+      )}
+      <span aria-hidden="true">·</span>
+      <span class="font-semibold text-navy-900">{price}</span>
+    </div>
+    <span class="inline-flex items-center gap-1 text-sm font-semibold text-accent group-hover:gap-2 transition-all duration-150 shrink-0">
+      View
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </div>
+</a>

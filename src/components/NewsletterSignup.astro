@@ -1,0 +1,125 @@
+---
+interface Props {
+  variant?: 'light' | 'dark';
+  title?: string;
+  body?: string;
+}
+
+const {
+  variant = 'light',
+  title = 'Stay ahead on ServiceNow for insurance & FS',
+  body = 'Monthly insights on CMDB, ITSM, SAM Pro, and AI architecture — written for practitioners and IT leaders in insurance and financial services.',
+} = Astro.props;
+---
+
+<div
+  id="fc-newsletter"
+  class:list={[
+    'rounded-xl p-6 sm:p-8',
+    variant === 'dark'
+      ? 'bg-white/5 border border-white/10'
+      : 'bg-accent-50 border border-accent-100',
+  ]}
+>
+  <h2 class:list={[
+    'font-display font-700 text-xl mb-2',
+    variant === 'dark' ? 'text-white' : 'text-navy-900',
+  ]}>
+    {title}
+  </h2>
+  <p class:list={[
+    'text-sm leading-relaxed mb-5',
+    variant === 'dark' ? 'text-slate-300' : 'text-slate-600',
+  ]}>
+    {body}
+  </p>
+
+  <form
+    id="fc-newsletter-form"
+    class="flex flex-col sm:flex-row gap-2.5"
+    aria-label="Newsletter signup"
+    novalidate
+  >
+    <input
+      type="text"
+      name="name"
+      placeholder="Your name (optional)"
+      autocomplete="name"
+      aria-label="Your name"
+      class="flex-1 px-3.5 py-2.5 rounded-lg border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent bg-white"
+    />
+    <input
+      type="email"
+      name="email"
+      placeholder="Work email"
+      autocomplete="email"
+      required
+      aria-label="Work email"
+      aria-required="true"
+      class="flex-1 px-3.5 py-2.5 rounded-lg border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent bg-white"
+    />
+    <button
+      type="submit"
+      class="px-5 py-2.5 bg-accent hover:bg-accent-dark text-white text-sm font-semibold rounded-lg transition-colors duration-150 whitespace-nowrap"
+    >
+      Subscribe
+    </button>
+  </form>
+
+  <p id="fc-newsletter-success" class="hidden mt-3 text-sm font-medium text-emerald-700">
+    ✓ Subscribed. Check your inbox for a welcome note.
+  </p>
+  <p id="fc-newsletter-error" class="hidden mt-3 text-sm text-red-600"></p>
+</div>
+
+<script>
+  const form = document.getElementById('fc-newsletter-form') as HTMLFormElement | null;
+  const success = document.getElementById('fc-newsletter-success');
+  const errEl = document.getElementById('fc-newsletter-error');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form!);
+    const email = (fd.get('email') as string ?? '').trim();
+    const name  = (fd.get('name')  as string ?? '').trim();
+    if (!email) return;
+
+    const btn = form!.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+
+    try {
+      const res = await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email,
+          playbookId: 'newsletter',
+          playbookTitle: 'Newsletter',
+          track: 'newsletter',
+          s3Key: null,
+          isNewsletter: true,
+        }),
+      });
+      if (res.ok) {
+        form!.classList.add('hidden');
+        success?.classList.remove('hidden');
+      } else {
+        const j = await res.json().catch(() => ({}));
+        if (errEl) {
+          errEl.textContent = (j as any).error ?? 'Something went wrong. Please try again.';
+          errEl.classList.remove('hidden');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+      }
+    } catch {
+      if (errEl) {
+        errEl.textContent = 'Could not connect. Please try again.';
+        errEl.classList.remove('hidden');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
+    }
+  });
+</script>

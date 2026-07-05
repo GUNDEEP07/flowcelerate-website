@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTASection from '../components/CTASection.astro';
+---
+
+<Layout
+  title="About — Flowcelerate"
+  description="ServiceNow Certified Technical Architect with 10+ years in insurance, reinsurance, and financial services. Independent practitioner focused on architecture that lasts."
+>
+  <!-- Page hero -->
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="about-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">About</p>
+        <h1 id="about-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Senior architect. Insurance and financial services specialist.
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Ten years on the ServiceNow platform, exclusively in highly regulated industries. Certified Technical Architect. Independent practitioner.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bio section -->
+  <section class="py-20 bg-white" aria-labelledby="bio-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Executive Bio Card -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50 group">
+            <div class="aspect-square w-full overflow-hidden bg-slate-100 relative">
+              <img
+                src="/executive_portrait.png"
+                alt="Marcus Vance, Certified Technical Architect"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-navy-950/80 via-navy-950/40 to-transparent p-6 pt-12">
+                <p class="font-display font-800 text-white text-xl">Marcus Vance</p>
+                <p class="text-teal-light text-sm font-semibold mt-0.5 font-sans">ServiceNow Certified Technical Architect (CTA)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cert badges -->
+          <div class="mt-6 space-y-2">
+            {[
+              'Certified Technical Architect (CTA)',
+              'CIS — IT Service Management',
+              'CIS — HR Service Delivery',
+              'Certified Application Developer',
+              'Certified System Administrator',
+            ].map((cert) => (
+              <div class="flex items-center gap-2.5 px-3 py-2 bg-accent-50 rounded-lg border border-accent-100/50">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" class="shrink-0">
+                  <path d="M2 7L5.5 10.5L12 3.5" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xs font-semibold text-navy-900">{cert}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Bio text -->
+        <div class="lg:col-span-2 space-y-6 text-slate-700 leading-relaxed font-sans">
+          <h2 id="bio-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900">
+            Built for the regulated end of the market
+          </h2>
+
+          <p>
+            I started my ServiceNow career in 2015, joining an enterprise implementation for a global (re)insurer as a developer. Within three years I was leading architecture on multi-tower programmes and encountering, repeatedly, the same challenge: organisations deploying the ServiceNow platform with patterns and configurations borrowed from generic enterprise IT, then discovering those patterns don't survive first contact with Lloyd's market complexity or Solvency II reporting obligations.
+          </p>
+
+          <p>
+            I became a Certified Technical Architect in 2019 — the highest technical certification ServiceNow offers, requiring a demonstrated ability to design multi-tower solutions at enterprise scale and defend those designs under examination. Since then, I've focused exclusively on insurance, reinsurance, and financial services clients, where the platform configuration decisions intersect with regulatory requirements in ways that matter.
+          </p>
+
+          <p>
+            In 2023 I established Flowcelerate as an independent practice. The model is deliberate: working directly with clients on architecture and design, without the overhead of a large consultancy or the incentive to maximise delivery hours. Engagements are scoped around specific outcomes — a credible CMDB, a defensible SAM estate, an agentic workflow that holds up in a governance review.
+          </p>
+
+          <h3 class="font-display font-700 text-xl text-navy-900 pt-2">Industry focus</h3>
+
+          <p>
+            The insurance and reinsurance market presents ServiceNow challenges you don't encounter in other sectors: complex data lineage requirements across syndicates and pools, software licence exposure on actuarial and risk modelling tools with unusual publisher terms, operational resilience obligations under DORA and Solvency II that require demonstrable CMDB fidelity, and increasingly, the need to automate bordereau and treaty administration workflows without introducing unacceptable model risk.
+          </p>
+
+          <p>
+            These aren't edge cases. They're the normal operating environment for the clients I serve. Having worked within these constraints consistently for a decade, I can design solutions that are fit for this context — not solutions that worked somewhere else and have been adapted.
+          </p>
+
+          <h3 class="font-display font-700 text-xl text-navy-900 pt-2">How I work</h3>
+
+          <p>
+            Engagements typically begin with a structured discovery — understanding the current platform state, the business drivers, and the constraints (regulatory, technical, organisational). Design documentation precedes any build. Change is tracked and auditable. I don't begin implementation work without a written, agreed architectural design.
+          </p>
+
+          <p>
+            I work with clients' internal teams, not around them. Knowledge transfer is built into every engagement — the goal is a client organisation that understands what was built and why, not one that depends on continued external support.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CTASection
+    headline="Let's discuss your ServiceNow platform"
+    body="Whether you're evaluating a new implementation, dealing with a platform that's drifted from its original design, or scoping a specific capability, a focused discovery call is the right starting point."
+    ctaLabel="Book a Discovery Call"
+    variant="dark"
+  />
+</Layout>

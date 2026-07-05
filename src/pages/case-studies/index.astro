@@ -1,0 +1,161 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const caseStudies = [
+  {
+    id: 'global-reinsurer-csdm',
+    client: 'Global Reinsurer',
+    hq: 'London / Bermuda',
+    service: 'CMDB / CSDM',
+    headline: '60% reduction in CMDB data quality incidents in 9 months',
+    problem: `A globally active reinsurer had invested significantly in ServiceNow over three years but found their CMDB essentially unusable for operational purposes. Discovery was deployed but unmaintained; CI records were duplicated across entities; service relationships were absent. Regulatory engagement under Solvency II's operational resilience requirements had surfaced the CMDB's inadequacy explicitly.`,
+    approach: [
+      'Structured CMDB health assessment: identified 14,000 duplicate CIs, three conflicting Discovery credentials, and zero documented business application relationships',
+      'Implemented CSDM anchored on five critical business services: treaty administration, catastrophe modelling, claims bordereau processing, regulatory reporting, and finance settlement',
+      'Deployed Service Mapping for the application services supporting each critical business function, creating authoritative dependency topology for the first time',
+      'Established CI class ownership with quarterly data quality reviews baked into existing governance cadences',
+      'Built operational resilience dashboard aligned to Solvency II ORSA template requirements',
+    ],
+    results: [
+      { metric: '60%', label: 'Reduction in CMDB data quality incidents', timeframe: 'Within 9 months' },
+      { metric: '14,000', label: 'Duplicate CIs resolved', timeframe: 'During clean-up phase' },
+      { metric: '5', label: 'Critical business services mapped end-to-end', timeframe: 'With full dependency topology' },
+    ],
+    quote: 'The operational resilience team now runs their Solvency II self-assessment directly from the ServiceNow dashboard. That was not possible before this engagement.',
+  },
+  {
+    id: 'lloyds-managing-agent-sam',
+    client: "Lloyd's Managing Agent",
+    hq: "Lloyd's of London",
+    service: 'SAM Pro',
+    headline: '£2.1M in software cost avoidance identified in the first engagement year',
+    problem: `A Lloyd's managing agent with a ~300-person operation had never formally managed software licences. A Microsoft enterprise agreement renewal had triggered an internal review that uncovered significant uncertainty about their Oracle estate — specifically, whether their deployment across the Lloyd's platform and their own infrastructure constituted a single-entity or multi-entity position under their ELA. The potential true-up liability was material.`,
+    approach: [
+      "Deployed SAM Pro with Discovery integration across all managed environments including the Lloyd's platform shared infrastructure",
+      'Engaged specialist Oracle licence counsel to model the entity structure against the ELA terms — a prerequisite for accurate position calculation',
+      'Built custom Oracle metric rules reflecting the specific processor licence positions across virtual and physical servers',
+      'Configured Microsoft entitlement library across EA, MPSA, and CSP agreement types, including Azure hybrid benefit reconciliation',
+      'Implemented reclamation workflow with quarterly harvesting cycle across all software publishers',
+    ],
+    results: [
+      { metric: '£2.1M', label: 'Cost avoidance identified', timeframe: 'Oracle true-up liability avoided through accurate position' },
+      { metric: '£340K', label: 'Annual savings from reclamation', timeframe: 'Unused licences harvested in first cycle' },
+      { metric: '8 days', label: 'Oracle audit response time', timeframe: 'Publisher audit received 4 months post-deployment' },
+    ],
+    quote: "The Oracle audit arrived at the worst possible time — four months into the SAM programme. Having an accurate position meant we could respond with confidence rather than negotiating from ignorance.",
+  },
+  {
+    id: 'tier1-carrier-itsm-ai',
+    client: 'Tier-1 P&C Carrier',
+    hq: 'UK',
+    service: 'ITSM + AI Architecture',
+    headline: 'DORA operational resilience reporting automated; major incident MTTR down 45%',
+    problem: `A UK-domiciled property and casualty carrier was preparing for DORA compliance. Their operational resilience team was producing quarterly resilience reports from manual spreadsheet processes, taking 3–4 days per cycle and relying on data that was frequently stale by the time it was reported. Simultaneously, their ITSM platform was generating significant dissatisfaction — major incidents took an average of 4.2 hours to resolve, principally because impact analysis had to be done manually against an inaccurate CMDB.`,
+    approach: [
+      'Phase 1: CSDM implementation covering claims, underwriting, finance, and regulatory reporting business services',
+      'Phase 2: ITSM redesign — priority model aligned to critical business service hierarchy, automated stakeholder comms via Flow Designer, FCA notification triggers at P1 declaration',
+      'Phase 3: Agentic automation — incident classification AI action using CMDB context to draft initial impact assessment; change risk assessment AI action using historical change data',
+      'Governance: full audit logging for all AI actions, confidence scoring with human review routing, model risk documentation for three AI-assisted workflows',
+    ],
+    results: [
+      { metric: '45%', label: 'Reduction in major incident MTTR', timeframe: 'Measured over 6-month post-deployment period' },
+      { metric: 'Automated', label: 'DORA quarterly resilience reporting', timeframe: 'From live CMDB data, replacing manual process' },
+      { metric: '100%', label: 'FCA notification compliance', timeframe: 'Zero missed notification windows post-deployment' },
+    ],
+    quote: 'The combination of accurate CMDB data and AI-assisted impact analysis transformed how quickly we can scope a major incident. We now know within minutes what business services are at risk.',
+  },
+];
+---
+
+<Layout
+  title="Case Studies — Flowcelerate"
+  description="Anonymised outcomes from ServiceNow engagements in insurance, reinsurance, and financial services: CMDB/CSDM, SAM Pro, ITSM, and AI architecture."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="cs-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">Case Studies</p>
+        <h1 id="cs-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Outcomes from the field
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Anonymised outcomes from engagements with insurance, reinsurance, and financial services clients. Client identities are not disclosed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white" aria-label="Case study list">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      {caseStudies.map((cs, i) => (
+        <article
+          id={cs.id}
+          class="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-16 border-b border-slate-100 last:border-0 last:pb-0"
+          aria-labelledby={`cs-${i}-heading`}
+        >
+          <!-- Meta sidebar -->
+          <aside class="lg:col-span-1">
+            <span class="inline-block px-2.5 py-1 text-xs font-medium text-teal bg-teal/10 rounded-full mb-3">
+              {cs.client}
+            </span>
+            <p class="text-sm text-slate-500 mb-4">{cs.hq}</p>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent-50 rounded-full mb-6">
+              <span class="w-1.5 h-1.5 bg-accent rounded-full" aria-hidden="true"></span>
+              <span class="text-xs font-medium text-accent">{cs.service}</span>
+            </div>
+
+            <!-- Results summary -->
+            <div class="space-y-3">
+              {cs.results.map((r) => (
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <p class="font-display font-800 text-2xl text-navy-900">{r.metric}</p>
+                  <p class="text-sm text-navy-900 font-medium mt-0.5">{r.label}</p>
+                  <p class="text-xs text-slate-500 mt-0.5">{r.timeframe}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          <!-- Main content -->
+          <div class="lg:col-span-2">
+            <h2 id={`cs-${i}-heading`} class="font-display font-800 text-2xl sm:text-3xl text-navy-900 text-balance mb-6">
+              {cs.headline}
+            </h2>
+
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-display font-700 text-sm uppercase tracking-wider text-accent mb-3">The Problem</h3>
+                <p class="text-slate-600 leading-relaxed">{cs.problem}</p>
+              </div>
+
+              <div>
+                <h3 class="font-display font-700 text-sm uppercase tracking-wider text-accent mb-3">The Approach</h3>
+                <ul class="space-y-2">
+                  {cs.approach.map((step) => (
+                    <li class="flex items-start gap-3 text-sm text-slate-600">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="mt-0.5 shrink-0" aria-hidden="true">
+                        <path d="M2 7L5.5 10.5L12 3.5" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      {step}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {cs.quote && (
+                <blockquote class="relative pl-5 border-l-2 border-accent">
+                  <p class="text-slate-700 italic leading-relaxed">"{cs.quote}"</p>
+                  <footer class="mt-2 text-xs text-slate-400">— Programme sponsor, {cs.client}</footer>
+                </blockquote>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <CTASection />
+</Layout>

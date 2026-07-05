@@ -1,0 +1,77 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PlaybookCard from '../../../components/PlaybookCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPlaybooks = (await getCollection('playbooks', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const tracks = ['all', 'practitioner', 'leadership'] as const;
+const selectedTrack = (Astro.url.searchParams.get('track') ?? 'all') as typeof tracks[number];
+
+const filtered = selectedTrack === 'all'
+  ? allPlaybooks
+  : allPlaybooks.filter(p => p.data.track === selectedTrack);
+---
+
+<Layout
+  title="Playbooks — Flowcelerate Training"
+  description="Free PDF playbooks on ServiceNow architecture for insurance and financial services. CMDB/CSDM, SAM Pro, DORA compliance, and more."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="pb-index-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/training" class="hover:text-white transition-colors">Training</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">Playbooks</span>
+      </nav>
+      <div class="max-w-2xl">
+        <h1 id="pb-index-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Free playbooks
+        </h1>
+        <p class="mt-5 text-slate-300 text-lg leading-relaxed">
+          PDF guides on ServiceNow architecture for insurance and financial services. Enter your email and receive the download link instantly.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white" aria-label="Playbook listing">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filter by track">
+        {tracks.map(t => (
+          <a
+            href={t === 'all' ? '/training/playbooks' : `/training/playbooks?track=${t}`}
+            class:list={[
+              'px-3.5 py-1.5 text-sm font-medium rounded-full border transition-colors capitalize',
+              selectedTrack === t
+                ? 'text-white bg-accent border-accent'
+                : 'text-slate-600 border-slate-200 hover:border-accent/50 hover:text-accent',
+            ]}
+          >
+            {t === 'all' ? 'All tracks' : t}
+          </a>
+        ))}
+      </div>
+
+      {filtered.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {filtered.map(p => (
+            <PlaybookCard
+              title={p.data.title}
+              description={p.data.description}
+              track={p.data.track}
+              topics={p.data.topics}
+              pages={p.data.pages}
+              href={`/training/playbooks/${p.id}`}
+              gated={p.data.gated}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-slate-500 py-16 text-center">No playbooks found for this filter.</p>
+      )}
+    </div>
+  </section>
+</Layout>

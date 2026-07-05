@@ -1,0 +1,602 @@
+---
+// ChatWidget: floating AI chat powered by Claude via /.netlify/functions/chat
+// Positioned bottom-left to avoid Calendly badge (bottom-right).
+// Loads nothing until the user opens the widget — zero impact on page performance.
+const WELCOME = "What ServiceNow challenge are you working through right now?";
+const CONTACT_THRESHOLD = 3; // exchanges before asking for contact details
+---
+
+<!-- Trigger button -->
+<button
+  id="fc-chat-trigger"
+  aria-label="Open chat with Aria, Flowcelerate's AI assistant"
+  aria-expanded="false"
+  aria-controls="fc-chat-window"
+>
+  <svg id="fc-icon-chat" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+    <path d="M11 2C6.03 2 2 5.806 2 10.5c0 1.9.63 3.66 1.69 5.08L2 20l4.7-1.57A9.24 9.24 0 0011 19c4.97 0 9-3.806 9-8.5S15.97 2 11 2Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+  </svg>
+  <svg id="fc-icon-close" width="18" height="18" viewBox="0 0 18 18" fill="none" class="hidden" aria-hidden="true">
+    <path d="M3 3L15 15M15 3L3 15" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+  <span>Ask Aria</span>
+</button>
+
+<!-- Chat window -->
+<div
+  id="fc-chat-window"
+  role="dialog"
+  aria-labelledby="fc-chat-title"
+  aria-hidden="true"
+>
+  <!-- Header -->
+  <header id="fc-chat-header">
+    <div class="fc-header-left">
+      <div class="fc-avatar" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 9L7.5 4.5L12 9L7.5 13.5L3 9Z" fill="white" opacity="0.6"/>
+          <path d="M7.5 9L12 4.5L16.5 9L12 13.5L7.5 9Z" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <h2 id="fc-chat-title">Aria</h2>
+        <p>Flowcelerate AI · ServiceNow specialist</p>
+      </div>
+    </div>
+    <button id="fc-chat-close" aria-label="Close chat">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Message list -->
+  <div id="fc-messages" role="log" aria-live="polite" aria-label="Chat messages"></div>
+
+  <!-- Contact capture card (hidden until triggered) -->
+  <div id="fc-contact-card" class="hidden" role="form" aria-label="Share your contact details">
+    <p>To connect you with our principal architect, could I get your details?</p>
+    <input id="fc-name" type="text" placeholder="Your name" autocomplete="name" aria-label="Your name" />
+    <input id="fc-email" type="email" placeholder="Work email" autocomplete="work email" aria-label="Work email" />
+    <button id="fc-contact-submit">Share details</button>
+  </div>
+
+  <!-- Footer -->
+  <div id="fc-footer">
+    <a href="/book" id="fc-book-btn" target="_blank" rel="noopener">
+      Book a discovery call
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <div id="fc-compose">
+      <textarea
+        id="fc-input"
+        placeholder="Ask about ServiceNow…"
+        rows="1"
+        aria-label="Chat message"
+        maxlength="800"
+      ></textarea>
+      <button id="fc-send" aria-label="Send message" disabled>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M14 2L2 6.5L7 8M14 2L9.5 14L7 8M14 2L7 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #fc-chat-trigger {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px 12px 14px;
+    background: #0a1628;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: var(--font-sans, 'DM Sans', sans-serif);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    white-space: nowrap;
+  }
+  #fc-chat-trigger:hover {
+    background: #152a55;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.3);
+  }
+  #fc-chat-trigger:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 3px;
+  }
+
+  #fc-chat-window {
+    position: fixed;
+    bottom: 80px;
+    left: 24px;
+    z-index: 9001;
+    width: 370px;
+    max-height: 580px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom left;
+    transform: scale(0.92) translateY(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  #fc-chat-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (max-width: 480px) {
+    #fc-chat-window {
+      left: 8px;
+      right: 8px;
+      bottom: 76px;
+      width: auto;
+      max-height: 70vh;
+    }
+  }
+
+  /* Header */
+  #fc-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: #0a1628;
+    flex-shrink: 0;
+  }
+  .fc-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fc-avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  #fc-chat-title {
+    color: white;
+    font-family: var(--font-display, 'Syne', sans-serif);
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+  #fc-chat-header p {
+    color: rgba(255,255,255,0.5);
+    font-size: 11px;
+    margin: 0;
+    line-height: 1.3;
+  }
+  #fc-chat-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+  }
+  #fc-chat-close:hover { color: white; }
+  #fc-chat-close:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.4);
+    outline-offset: 2px;
+  }
+
+  /* Messages */
+  #fc-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+  }
+  #fc-messages::-webkit-scrollbar { width: 4px; }
+  #fc-messages::-webkit-scrollbar-track { background: transparent; }
+  #fc-messages::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+  .fc-msg {
+    max-width: 86%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    word-break: break-word;
+  }
+  .fc-msg.assistant {
+    align-self: flex-start;
+    background: #f1f5f9;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+  }
+  .fc-msg.user {
+    align-self: flex-end;
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .fc-msg.error {
+    align-self: flex-start;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    border-bottom-left-radius: 4px;
+  }
+
+  /* Typing indicator */
+  .fc-typing {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+  }
+  .fc-typing span {
+    width: 6px;
+    height: 6px;
+    background: #94a3b8;
+    border-radius: 50%;
+    animation: fcBounce 1.2s ease-in-out infinite;
+  }
+  .fc-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .fc-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes fcBounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+
+  /* Contact card */
+  #fc-contact-card {
+    margin: 0 16px 12px;
+    padding: 14px;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  #fc-contact-card p {
+    font-size: 12.5px;
+    color: #1e40af;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  #fc-contact-card input {
+    width: 100%;
+    padding: 7px 10px;
+    font-size: 13px;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    margin-bottom: 7px;
+    box-sizing: border-box;
+    outline: none;
+    font-family: inherit;
+    color: #1e293b;
+    background: white;
+    transition: border-color 0.15s;
+  }
+  #fc-contact-card input:focus { border-color: #2563eb; }
+  #fc-contact-submit {
+    width: 100%;
+    padding: 8px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  #fc-contact-submit:hover { background: #1d4ed8; }
+  #fc-contact-submit:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+  /* Footer */
+  #fc-footer {
+    padding: 10px 12px;
+    border-top: 1px solid #f1f5f9;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  #fc-book-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px;
+    background: #f8fafc;
+    color: #2563eb;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+    font-family: inherit;
+  }
+  #fc-book-btn:hover {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+  }
+  #fc-compose {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  #fc-input {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 13.5px;
+    font-family: inherit;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    resize: none;
+    outline: none;
+    color: #1e293b;
+    line-height: 1.45;
+    max-height: 120px;
+    transition: border-color 0.15s;
+  }
+  #fc-input:focus { border-color: #2563eb; }
+  #fc-send {
+    width: 36px;
+    height: 36px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, opacity 0.15s;
+  }
+  #fc-send:disabled { background: #94a3b8; cursor: default; }
+  #fc-send:not(:disabled):hover { background: #1d4ed8; }
+  #fc-send:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+  /* Utility */
+  .hidden { display: none !important; }
+</style>
+
+<script>
+  (function () {
+    const ENDPOINT = '/.netlify/functions/chat';
+    const STORAGE_KEY = 'fc_chat';
+    const CONTACT_THRESHOLD = 3;
+
+    // ── DOM references ────────────────────────────────────────────────────
+    const trigger   = document.getElementById('fc-chat-trigger');
+    const win       = document.getElementById('fc-chat-window');
+    const closeBtn  = document.getElementById('fc-chat-close');
+    const msgList   = document.getElementById('fc-messages');
+    const input     = document.getElementById('fc-input');
+    const sendBtn   = document.getElementById('fc-send');
+    const contactCard = document.getElementById('fc-contact-card');
+    const nameInput   = document.getElementById('fc-name');
+    const emailInput  = document.getElementById('fc-email');
+    const contactSubmit = document.getElementById('fc-contact-submit');
+    const iconChat  = document.getElementById('fc-icon-chat');
+    const iconClose = document.getElementById('fc-icon-close');
+
+    if (!trigger || !win || !msgList || !input || !sendBtn) return;
+
+    // ── State ─────────────────────────────────────────────────────────────
+    let isOpen = false;
+    let isLoading = false;
+    let exchangeCount = 0;
+    let contactCaptured = false;
+    let contactCardShown = false;
+    let visitorName = '';
+    let visitorEmail = '';
+
+    /** Conversation history sent to the API */
+    const messages: { role: 'user' | 'assistant'; content: string }[] = [];
+
+    // ── Helpers ───────────────────────────────────────────────────────────
+    function openChat() {
+      isOpen = true;
+      win!.classList.add('open');
+      win!.setAttribute('aria-hidden', 'false');
+      trigger!.setAttribute('aria-expanded', 'true');
+      iconChat!.classList.add('hidden');
+      iconClose!.classList.remove('hidden');
+      if (messages.length === 0) sendWelcome();
+      setTimeout(() => (input as HTMLTextAreaElement).focus(), 200);
+    }
+
+    function closeChat() {
+      isOpen = false;
+      win!.classList.remove('open');
+      win!.setAttribute('aria-hidden', 'true');
+      trigger!.setAttribute('aria-expanded', 'false');
+      iconChat!.classList.remove('hidden');
+      iconClose!.classList.add('hidden');
+    }
+
+    function appendMsg(role: 'user' | 'assistant' | 'error', text: string) {
+      const div = document.createElement('div');
+      div.className = `fc-msg ${role}`;
+      div.textContent = text;
+      msgList!.appendChild(div);
+      msgList!.scrollTop = msgList!.scrollHeight;
+      return div;
+    }
+
+    function showTyping() {
+      const dot = document.createElement('div');
+      dot.className = 'fc-typing';
+      dot.id = 'fc-typing-indicator';
+      for (let i = 0; i < 3; i++) dot.appendChild(document.createElement('span'));
+      msgList!.appendChild(dot);
+      msgList!.scrollTop = msgList!.scrollHeight;
+    }
+
+    function hideTyping() {
+      document.getElementById('fc-typing-indicator')?.remove();
+    }
+
+    function setLoading(state: boolean) {
+      isLoading = state;
+      (sendBtn as HTMLButtonElement).disabled = state || !(input as HTMLTextAreaElement).value.trim();
+      (input as HTMLTextAreaElement).disabled = state;
+    }
+
+    function autoGrow() {
+      const el = input as HTMLTextAreaElement;
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    function maybeShowContactCard() {
+      if (contactCardShown || contactCaptured || exchangeCount < CONTACT_THRESHOLD) return;
+      contactCardShown = true;
+      contactCard!.classList.remove('hidden');
+      msgList!.scrollTop = msgList!.scrollHeight;
+    }
+
+    // ── Welcome message (local, no API call) ─────────────────────────────
+    function sendWelcome() {
+      const welcome = 'What ServiceNow challenge are you working through right now?';
+      messages.push({ role: 'assistant', content: welcome });
+      appendMsg('assistant', welcome);
+    }
+
+    // ── API call ──────────────────────────────────────────────────────────
+    async function sendMessage(userText: string) {
+      if (isLoading || !userText.trim()) return;
+
+      messages.push({ role: 'user', content: userText });
+      appendMsg('user', userText);
+      (input as HTMLTextAreaElement).value = '';
+      (input as HTMLTextAreaElement).style.height = 'auto';
+      setLoading(true);
+      showTyping();
+
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages,
+            visitorName: visitorName || undefined,
+            visitorEmail: visitorEmail || undefined,
+          }),
+        });
+
+        hideTyping();
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          appendMsg('error', (err as any).error || 'Something went wrong. Please try again.');
+          setLoading(false);
+          return;
+        }
+
+        const data: { reply: string; requestContact?: boolean; suggestBooking?: boolean } = await res.json();
+
+        messages.push({ role: 'assistant', content: data.reply });
+        appendMsg('assistant', data.reply);
+
+        exchangeCount++;
+
+        if (data.requestContact && !contactCaptured && !contactCardShown) {
+          contactCardShown = true;
+          contactCard!.classList.remove('hidden');
+        } else {
+          maybeShowContactCard();
+        }
+      } catch {
+        hideTyping();
+        appendMsg('error', 'Could not reach the server. Please try again or use the book button above.');
+      } finally {
+        setLoading(false);
+        (sendBtn as HTMLButtonElement).disabled = !(input as HTMLTextAreaElement).value.trim();
+      }
+    }
+
+    // ── Contact capture submit ────────────────────────────────────────────
+    contactSubmit?.addEventListener('click', () => {
+      const name  = (nameInput  as HTMLInputElement).value.trim();
+      const email = (emailInput as HTMLInputElement).value.trim();
+      if (!email) {
+        (emailInput as HTMLInputElement).focus();
+        return;
+      }
+      visitorName  = name;
+      visitorEmail = email;
+      contactCaptured = true;
+      contactCard!.classList.add('hidden');
+      const confirmation = name
+        ? `Thanks, ${name}! I've noted your details. Is there anything else I can clarify before you book a call?`
+        : 'Thanks — I\'ve noted your details. Is there anything else I can clarify before you book a call?';
+      messages.push({ role: 'assistant', content: confirmation });
+      appendMsg('assistant', confirmation);
+    });
+
+    // ── Event listeners ───────────────────────────────────────────────────
+    trigger.addEventListener('click', () => (isOpen ? closeChat() : openChat()));
+    closeBtn?.addEventListener('click', closeChat);
+
+    input.addEventListener('input', () => {
+      autoGrow();
+      (sendBtn as HTMLButtonElement).disabled = isLoading || !(input as HTMLTextAreaElement).value.trim();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage((input as HTMLTextAreaElement).value.trim());
+      }
+    });
+
+    sendBtn.addEventListener('click', () => {
+      sendMessage((input as HTMLTextAreaElement).value.trim());
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) closeChat();
+    });
+
+    // Close if click outside the window and trigger
+    document.addEventListener('click', (e) => {
+      if (isOpen && !win!.contains(e.target as Node) && !trigger.contains(e.target as Node)) {
+        closeChat();
+      }
+    });
+  })();
+</script>

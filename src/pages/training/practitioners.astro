@@ -1,0 +1,88 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PlaybookCard from '../../components/PlaybookCard.astro';
+import WorkshopCard from '../../components/WorkshopCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getCollection } from 'astro:content';
+
+const playbooks = (await getCollection('playbooks', ({ data }) => !data.draft && data.track === 'practitioner'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const workshops = (await getCollection('workshops', ({ data }) => !data.draft && data.track === 'practitioner'))
+  .sort((a, b) => (a.data.nextDate?.valueOf() ?? 0) - (b.data.nextDate?.valueOf() ?? 0));
+---
+
+<Layout
+  title="Practitioner Track — Flowcelerate Training"
+  description="ServiceNow training for practitioners in insurance and financial services: CMDB/CSDM, SAM Pro, Flow Designer, AI automation. Playbooks and live workshops."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="pract-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/training" class="hover:text-white transition-colors">Training</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">Practitioner Track</span>
+      </nav>
+      <div class="max-w-2xl">
+        <div class="flex items-center gap-2 mb-5">
+          <span class="text-2xl" aria-hidden="true">⚙️</span>
+          <span class="px-2.5 py-1 text-xs font-semibold text-accent bg-accent/10 rounded-full border border-accent/20">Practitioner</span>
+        </div>
+        <h1 id="pract-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Built for the people doing the work on the platform
+        </h1>
+        <p class="mt-5 text-slate-300 text-lg leading-relaxed">
+          Deep technical guides and hands-on workshops for ServiceNow administrators, developers, and architects at insurance carriers, reinsurers, and financial services firms.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {playbooks.length > 0 && (
+    <section class="py-20 bg-white" aria-labelledby="pract-pb-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 id="pract-pb-heading" class="font-display font-800 text-2xl text-navy-900 mb-8">Playbooks</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {playbooks.map(p => (
+            <PlaybookCard
+              title={p.data.title}
+              description={p.data.description}
+              track={p.data.track}
+              topics={p.data.topics}
+              pages={p.data.pages}
+              href={`/training/playbooks/${p.id}`}
+              gated={p.data.gated}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {workshops.length > 0 && (
+    <section class="py-20 bg-slate-50" aria-labelledby="pract-ws-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 id="pract-ws-heading" class="font-display font-800 text-2xl text-navy-900 mb-8">Workshops</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {workshops.map(w => (
+            <WorkshopCard
+              title={w.data.title}
+              description={w.data.description}
+              track={w.data.track}
+              format={w.data.format}
+              duration={w.data.duration}
+              price={w.data.price}
+              maxParticipants={w.data.maxParticipants}
+              nextDate={w.data.nextDate}
+              openEnrollment={w.data.openEnrollment}
+              href={`/training/workshops/${w.id}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTASection />
+</Layout>

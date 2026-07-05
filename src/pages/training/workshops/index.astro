@@ -1,0 +1,89 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import WorkshopCard from '../../../components/WorkshopCard.astro';
+import CTASection from '../../../components/CTASection.astro';
+import { getCollection } from 'astro:content';
+
+const allWorkshops = (await getCollection('workshops', ({ data }) => !data.draft))
+  .sort((a, b) => (a.data.nextDate?.valueOf() ?? 0) - (b.data.nextDate?.valueOf() ?? 0));
+
+const tracks = ['all', 'practitioner', 'leadership'] as const;
+const selectedTrack = (Astro.url.searchParams.get('track') ?? 'all') as typeof tracks[number];
+
+const filtered = selectedTrack === 'all'
+  ? allWorkshops
+  : allWorkshops.filter(w => w.data.track === selectedTrack);
+---
+
+<Layout
+  title="Workshops — Flowcelerate Training"
+  description="Live and in-house ServiceNow workshops for insurance and financial services teams. CMDB health, agentic automation, DORA strategy, and more."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="ws-index-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/training" class="hover:text-white transition-colors">Training</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">Workshops</span>
+      </nav>
+      <div class="max-w-2xl">
+        <h1 id="ws-index-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Live workshops
+        </h1>
+        <p class="mt-5 text-slate-300 text-lg leading-relaxed">
+          Hands-on virtual sessions for practitioners and strategic workshops for IT leaders. Available as open-enrollment or in-house for your team.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white" aria-label="Workshop listing">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filter by track">
+        {tracks.map(t => (
+          <a
+            href={t === 'all' ? '/training/workshops' : `/training/workshops?track=${t}`}
+            class:list={[
+              'px-3.5 py-1.5 text-sm font-medium rounded-full border transition-colors capitalize',
+              selectedTrack === t
+                ? 'text-white bg-accent border-accent'
+                : 'text-slate-600 border-slate-200 hover:border-accent/50 hover:text-accent',
+            ]}
+          >
+            {t === 'all' ? 'All tracks' : t}
+          </a>
+        ))}
+      </div>
+
+      {filtered.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {filtered.map(w => (
+            <WorkshopCard
+              title={w.data.title}
+              description={w.data.description}
+              track={w.data.track}
+              format={w.data.format}
+              duration={w.data.duration}
+              price={w.data.price}
+              maxParticipants={w.data.maxParticipants}
+              nextDate={w.data.nextDate}
+              openEnrollment={w.data.openEnrollment}
+              href={`/training/workshops/${w.id}`}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-slate-500 py-16 text-center">No workshops found for this filter.</p>
+      )}
+    </div>
+  </section>
+
+  <CTASection
+    headline="Need an in-house session?"
+    body="All workshops can be run privately for your team — scoped to your platform, your regulatory context, and your specific challenges."
+    ctaLabel="Book a Discovery Call"
+    secondaryLabel="View Services"
+    secondaryHref="/services"
+  />
+</Layout>

@@ -1,0 +1,150 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CTASection from '../../components/CTASection.astro';
+---
+
+<Layout
+  title="ITSM Transformation — Flowcelerate"
+  description="ServiceNow ITSM design for insurance and financial services: incident, problem, change, and request management built around regulatory obligations and service tiers."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="itsm-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">ITSM Transformation</span>
+      </nav>
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">ITSM</p>
+        <h1 id="itsm-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          ITSM that reflects how insurance operations actually work
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Generic ITIL implementations fail insurance and financial services firms because the process designs don't account for regulatory notification windows, critical business service hierarchies, or the operational resilience obligations that govern how incidents must be managed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business problem -->
+  <section class="py-20 bg-white" aria-labelledby="problem-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Problem</p>
+          <h2 id="problem-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 text-balance">
+            Why standard ITSM implementations fall short in regulated environments
+          </h2>
+          <div class="mt-6 space-y-4 text-slate-600 leading-relaxed">
+            <p>
+              Most ITSM implementations are configured around textbook ITIL — five priority levels, a generic escalation matrix, and SLA timers calibrated to nothing in particular. In an insurance carrier, this creates real problems.
+            </p>
+            <p>
+              Incidents affecting critical business services — claims processing, policy issuance, regulatory reporting — carry notification obligations to the FCA/PRA under operational resilience rules. A standard incident workflow has no mechanism to trigger that notification at the right time, with the right information, to the right stakeholders.
+            </p>
+            <p>
+              Change management is equally fraught. The Solvency II internal model change process requires documented impact assessment and board-level approval for certain changes. A generic CAB process doesn't know what an internal model change is, let alone how to route it.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Common Symptoms</p>
+          <div class="space-y-3">
+            {[
+              'SLAs that bear no relation to regulatory notification windows',
+              'Manual spreadsheet tracking for major incident comms',
+              'CAB process that treats all changes identically regardless of risk',
+              'No automated linkage between incidents and affected business services',
+              'Problem management used as a ticket parking lot rather than a structured RCA process',
+              'Request fulfilment workflows that bypass the CMDB entirely',
+            ].map((symptom) => (
+              <div class="flex items-start gap-3 p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0 mt-0.5" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7" stroke="#f59e0b" stroke-width="1.5"/>
+                  <path d="M8 5V8.5M8 11H8.01" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="text-sm text-slate-700">{symptom}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach -->
+  <section class="py-20 bg-slate-50" aria-labelledby="approach-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Approach</p>
+        <h2 id="approach-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 text-balance">
+          ITSM designed from the business service down
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          {
+            title: 'Service tier architecture',
+            body: 'Define your critical business services and map them to incident priority logic — so a P1 on claims processing is automatically treated differently from a P1 on a low-risk internal tool.',
+          },
+          {
+            title: 'Regulatory notification flows',
+            body: 'Automated workflows that trigger the right comms — to the FCA, to the board, to reinsurers — at the right time, based on incident classification and elapsed time.',
+          },
+          {
+            title: 'Risk-based change management',
+            body: 'Change risk assessment logic that routes changes correctly: standard, normal, and emergency paths with the right approval bodies for each, including Solvency II internal model changes.',
+          },
+          {
+            title: 'Structured problem management',
+            body: 'A problem process designed for genuine root cause analysis — not as a junk drawer for unresolved incidents. Includes known error database and change proposal integration.',
+          },
+          {
+            title: 'Request fulfilment with CMDB fidelity',
+            body: 'Service catalogue items and fulfilment workflows that update the CMDB accurately, so provisioned assets are tracked from day one.',
+          },
+          {
+            title: 'Operational resilience reporting',
+            body: 'Management information and dashboards that surface the data your operational resilience team needs for regulatory self-assessment and board reporting.',
+          },
+        ].map((item) => (
+          <div class="p-6 bg-white rounded-xl border border-slate-200">
+            <h3 class="font-display font-700 text-navy-900 mb-2">{item.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes -->
+  <section class="py-20 bg-white" aria-labelledby="outcomes-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Outcomes</p>
+      <h2 id="outcomes-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 mb-8">
+        What a well-designed ITSM platform delivers
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+        {[
+          { metric: '40–60%', label: 'Reduction in major incident resolution time', note: 'Through accurate service dependency mapping' },
+          { metric: '100%', label: 'Regulatory notification compliance', note: 'Automated triggers replace manual tracking' },
+          { metric: '<2hrs', label: 'Time to complete change risk assessment', note: 'Down from 2–3 days for complex changes' },
+        ].map((o) => (
+          <div class="p-6 bg-accent-50 rounded-xl border border-accent-100">
+            <p class="font-display font-800 text-3xl text-accent mb-1">{o.metric}</p>
+            <p class="font-medium text-navy-900 text-sm">{o.label}</p>
+            <p class="text-slate-500 text-xs mt-1">{o.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    headline="Ready to redesign your ITSM platform?"
+    body="Start with a discovery conversation. I'll assess your current configuration and identify the highest-leverage improvements for your specific regulatory context."
+  />
+</Layout>

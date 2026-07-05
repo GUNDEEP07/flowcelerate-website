@@ -1,0 +1,105 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Collect all unique tags
+const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].sort();
+
+const selectedTag = Astro.url.searchParams.get('tag') ?? '';
+const filteredPosts = selectedTag
+  ? allPosts.filter((p) => p.data.tags.includes(selectedTag))
+  : allPosts;
+---
+
+<Layout
+  title="Insights — Flowcelerate"
+  description="ServiceNow architecture perspectives for insurance and financial services: CMDB, ITSM, SAM Pro, AI automation, and regulatory compliance."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="insights-page-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+        <div class="max-w-xl">
+          <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">Insights</p>
+          <h1 id="insights-page-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+            Architecture perspectives
+          </h1>
+          <p class="mt-4 text-slate-300 text-lg">
+            Practical thinking on ServiceNow platform architecture for insurance and financial services.
+          </p>
+        </div>
+        <a
+          href="/rss.xml"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 border border-white/20 rounded-lg hover:border-white/40 hover:text-white transition-colors self-start sm:self-auto"
+          aria-label="Subscribe via RSS"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+            <circle cx="2.5" cy="11.5" r="2"/>
+            <path d="M0 5C4.142 5 7.5 8.358 7.5 12.5H5.5C5.5 9.462 3.038 7 0 7V5Z"/>
+            <path d="M0 0C7.732 0 14 6.268 14 14H12C12 7.373 6.627 2 0 2V0Z"/>
+          </svg>
+          RSS Feed
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white" aria-labelledby="post-list-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Tag filters -->
+      {allTags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filter by tag">
+          <a
+            href="/insights"
+            class:list={[
+              'px-3 py-1.5 text-sm font-medium rounded-full border transition-colors',
+              !selectedTag
+                ? 'text-white bg-accent border-accent'
+                : 'text-slate-600 border-slate-200 hover:border-accent/50 hover:text-accent',
+            ]}
+          >
+            All
+          </a>
+          {allTags.map((tag) => (
+            <a
+              href={`/insights?tag=${encodeURIComponent(tag)}`}
+              class:list={[
+                'px-3 py-1.5 text-sm font-medium rounded-full border transition-colors',
+                selectedTag === tag
+                  ? 'text-white bg-accent border-accent'
+                  : 'text-slate-600 border-slate-200 hover:border-accent/50 hover:text-accent',
+              ]}
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <h2 id="post-list-heading" class="sr-only">
+        {selectedTag ? `Posts tagged "${selectedTag}"` : 'All posts'}
+      </h2>
+
+      {filteredPosts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredPosts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              slug={post.id}
+              tags={post.data.tags}
+              readingTime={post.data.readingTime}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-slate-500 text-center py-16">No posts found for this tag.</p>
+      )}
+    </div>
+  </section>
+</Layout>

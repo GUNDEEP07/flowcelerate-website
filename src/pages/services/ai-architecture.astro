@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CTASection from '../../components/CTASection.astro';
+---
+
+<Layout
+  title="AI & Agentic Architecture — Flowcelerate"
+  description="ServiceNow AI architecture for insurance and financial services: Flow Designer, Now Assist, and GenAI actions designed for financial services governance requirements."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="ai-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">AI & Agentic Architecture</span>
+      </nav>
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">AI Architecture</p>
+        <h1 id="ai-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Agentic automation that survives a governance review
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Flow Designer and Now Assist together enable a genuinely new class of automation in ServiceNow. The challenge in insurance and financial services isn't enabling it — it's designing it so that AI-assisted decisions are auditable, reversible, and aligned with your model risk framework.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white" aria-labelledby="ai-problem-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Problem</p>
+          <h2 id="ai-problem-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 text-balance">
+            AI automation in regulated environments requires more than configuration
+          </h2>
+          <div class="mt-6 space-y-4 text-slate-600 leading-relaxed">
+            <p>
+              The ServiceNow Now Assist platform makes it straightforward to add GenAI actions to workflows. What it doesn't solve is the governance question: how do you deploy AI-assisted decision support in an environment where every material decision affecting a policy, claim, or regulatory return requires a defensible audit trail?
+            </p>
+            <p>
+              The FCA's principles on AI governance, Solvency II's internal model requirements, and emerging model risk frameworks all assume that AI systems used in business processes will be documented, tested, monitored, and subject to human oversight. Most ServiceNow AI deployments don't address this at all.
+            </p>
+            <p>
+              The result is either AI automation that never makes it through the risk sign-off process, or AI automation that does make it through but creates undisclosed model risk that surfaces later.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Use Cases in Insurance & Reinsurance</p>
+          <div class="space-y-3">
+            {[
+              { title: 'Bordereau triage', desc: 'Ingest facultative bordereaus, identify anomalies against treaty terms, route exceptions with structured summaries' },
+              { title: 'Incident classification', desc: 'Classify and route incidents based on description and affected services, with confidence scoring' },
+              { title: 'Change risk assessment', desc: 'Draft initial change risk assessment based on CI relationships and change history' },
+              { title: 'Loss reserve commentary', desc: 'Generate structured IBNR movement commentary for actuarial review' },
+              { title: 'Regulatory notification drafting', desc: 'Draft initial FCA/PRA notifications for major incidents, subject to legal review' },
+              { title: 'Knowledge base maintenance', desc: 'Identify stale knowledge articles and generate refresh drafts from resolved incident data' },
+            ].map((item) => (
+              <div class="flex items-start gap-3 p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                <div class="w-1.5 h-1.5 rounded-full bg-teal mt-2 shrink-0" aria-hidden="true"></div>
+                <div>
+                  <p class="font-medium text-navy-900 text-sm">{item.title}</p>
+                  <p class="text-slate-500 text-xs mt-0.5">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-slate-50" aria-labelledby="ai-approach-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Approach</p>
+        <h2 id="ai-approach-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900">
+          Architecture first. Configuration second.
+        </h2>
+      </div>
+
+      <!-- Architecture diagram (glowing agentic pipeline) -->
+      <div class="bg-navy-950 border border-white/5 rounded-2xl p-8 mb-10 shadow-inner">
+        <p class="text-slate-400 text-xs font-mono uppercase tracking-wider mb-6 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          Agentic Workflow Execution Loop
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+          {[
+            { step: '1. Ingest/Trigger', detail: 'Flow Designer intercepts transaction' },
+            { step: '2. Context Retrieval', detail: 'CSDM query + audit history pull' },
+            { step: '3. Skill Execution', detail: 'Now Assist bounded JSON call' },
+            { step: '4. Human Review', detail: 'Escalation routing & manual check' },
+            { step: '5. Audit Logging', detail: 'Store prompt metadata in DB' }
+          ].map((s, idx) => (
+            <div class="relative group">
+              <div class="p-5 rounded-xl bg-white/5 border border-white/10 group-hover:border-accent/40 transition-all duration-200">
+                <p class="font-display font-700 text-white text-sm group-hover:text-accent-light transition-colors">{s.step}</p>
+                <p class="text-slate-400 text-xs mt-1 leading-relaxed font-sans">{s.detail}</p>
+              </div>
+              {idx < 4 && (
+                <div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10 text-slate-600 font-bold pointer-events-none">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="animate-pulse">
+                    <path d="M6 3L13 10L6 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[
+          { title: 'Narrow GenAI actions', body: 'Each GenAI action does one bounded thing and returns structured JSON. Testable, replaceable, and auditable. Never "handle the whole workflow" in a single action.' },
+          { title: 'Skill Builder configuration', body: 'Domain-specific system prompts, grounding documents, and output schemas. The quality of the prompt engineering determines the quality of the output.' },
+          { title: 'Human-in-the-loop by design', body: 'Confidence scoring routes low-confidence outputs to human review. High-confidence outputs go to a lighter-touch review queue. Approval actions in Flow Designer handle this natively.' },
+          { title: 'Full audit logging', body: 'Every invocation logs the prompt, the response, and the routing decision. Required for FCA AI governance and internal model risk frameworks.' },
+          { title: 'Monitoring dashboard', body: 'Human override rate, accuracy sampling, exception escalation rate — the KPIs that tell you whether the automation is actually working.' },
+          { title: 'Model risk documentation', body: 'Written documentation of each AI-assisted workflow: purpose, inputs, model, outputs, limitations, monitoring approach. Ready for risk sign-off.' },
+        ].map((item) => (
+          <div class="p-6 bg-white rounded-xl border border-slate-200">
+            <h3 class="font-display font-700 text-navy-900 mb-2">{item.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    headline="Design AI automation that risk teams can approve"
+    body="A 30-minute discovery call to discuss your automation objectives and the governance constraints you're working within."
+  />
+</Layout>

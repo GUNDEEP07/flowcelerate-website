@@ -1,0 +1,53 @@
+---
+interface Props {
+  url?: string;
+  minHeight?: string;
+}
+
+const {
+  url = 'https://calendly.com/YOUR-LINK/consult?hide_gdpr_banner=1&hide_event_type_details=1',
+  minHeight = '700px',
+} = Astro.props;
+---
+
+<!-- Calendly stylesheet and script are loaded once in Layout.astro head.
+     This component renders only the embed container. -->
+<div
+  class="calendly-inline-widget w-full rounded-xl overflow-hidden border border-slate-200"
+  data-url={url}
+  style={`min-width:320px;height:${minHeight};`}
+  aria-label="Schedule a consultation"
+>
+  <!-- Fallback for users with JS disabled -->
+  <noscript>
+    <p class="p-6 text-center text-slate-600">
+      Please <a href={url.split('?')[0]} class="text-accent underline" target="_blank" rel="noopener noreferrer">visit Calendly</a> to schedule a consultation.
+    </p>
+  </noscript>
+</div>
+
+<script>
+  // Initialise the Calendly inline widget once the Calendly script is ready.
+  // The script tag is in Layout head (async + defer), so it may not be ready yet.
+  function initCalendlyInline() {
+    document.querySelectorAll<HTMLElement>('.calendly-inline-widget[data-url]').forEach((el) => {
+      if (el.dataset.url && typeof (window as any).Calendly !== 'undefined') {
+        (window as any).Calendly.initInlineWidget({
+          url: el.dataset.url,
+          parentElement: el,
+          prefill: {},
+          utm: {},
+        });
+      }
+    });
+  }
+
+  if (typeof (window as any).Calendly !== 'undefined') {
+    initCalendlyInline();
+  } else {
+    const script = document.querySelector('script[src*="calendly"]');
+    if (script) {
+      script.addEventListener('load', initCalendlyInline);
+    }
+  }
+</script>

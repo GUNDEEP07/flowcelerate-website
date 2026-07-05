@@ -1,0 +1,250 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CTASection from '../components/CTASection.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+
+const services = [
+  {
+    icon: '⚙️',
+    title: 'ITSM Transformation',
+    description: 'Incident, problem, change, and request management redesigned around your regulatory obligations and service tiers — not generic ITIL theory.',
+    href: '/services/itsm',
+    tags: ['Incident', 'Change', 'ITIL 4', 'SLA Design'],
+  },
+  {
+    icon: '🖥️',
+    title: 'SAM Pro',
+    description: 'Software asset management that survives an audit. Entitlement reconciliation, publisher compliance, and renewal forecasting for complex enterprise estates.',
+    href: '/services/sam-pro',
+    tags: ['Entitlements', 'Compliance', 'Publisher Risk'],
+  },
+  {
+    icon: '🗂️',
+    title: 'CMDB / CSDM',
+    description: 'A CMDB architecture grounded in the Common Service Data Model — built for operational resilience reporting, not just asset inventory.',
+    href: '/services/cmdb-csdm',
+    tags: ['CSDM', 'Discovery', 'Service Mapping', 'DORA'],
+  },
+  {
+    icon: '🤖',
+    title: 'AI & Agentic Architecture',
+    description: 'Flow Designer orchestration with Now Assist and GenAI actions — agentic workflows that hold up under financial services governance requirements.',
+    href: '/services/ai-architecture',
+    tags: ['Now Assist', 'Flow Designer', 'GenAI', 'Automation'],
+  },
+];
+
+const credentials = [
+  { label: 'ServiceNow Certified Technical Architect (CTA)' },
+  { label: 'CIS — ITSM' },
+  { label: 'CIS — HRSD' },
+  { label: '10+ years ServiceNow' },
+  { label: 'Insurance · Reinsurance · Financial Services' },
+];
+---
+
+<Layout
+  title="Flowcelerate — ServiceNow Architecture for Insurance & Financial Services"
+  description="Independent ServiceNow CTA specialising in ITSM, SAM Pro, CMDB/CSDM, and AI architecture for insurance, reinsurance, and financial services enterprises."
+>
+  <!-- Hero -->
+  <Hero
+    badge="ServiceNow Certified Technical Architect"
+    headline="ServiceNow Architecture Built for Insurance & Financial Services"
+    subheadline="Independent consulting from a CTA with 10+ years designing platforms that meet the complexity of insurance operations, reinsurance treaties, and regulated financial services."
+    ctaPrimary={{ href: '/book', label: 'Book a Discovery Call' }}
+    ctaSecondary={{ href: '/services', label: 'View Services' }}
+    variant="dark"
+  />
+
+  <!-- Credentials strip -->
+  <section class="bg-navy-800 border-y border-white/10" aria-label="Credentials">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+        {credentials.map((c) => (
+          <div class="flex items-center gap-2 text-slate-300 text-sm">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7L5.5 10.5L12 3.5" stroke="#14b8a6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{c.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Services grid -->
+  <section class="py-20 bg-slate-50" aria-labelledby="services-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Services</p>
+        <h2 id="services-heading" class="font-display font-800 text-3xl sm:text-4xl text-navy-900 text-balance">
+          Precision ServiceNow practice across the full platform
+        </h2>
+        <p class="mt-4 text-slate-600 text-lg">
+          Engagements are designed around outcomes — not billable hours. Each practice area addresses the specific problems insurance and financial services firms face on the ServiceNow platform.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {services.map((s) => (
+          <ServiceCard {...s} />
+        ))}
+      </div>
+
+      <div class="mt-8 text-center">
+        <a
+          href="/services"
+          class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
+        >
+          View all services
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why section -->
+  <section class="py-20 bg-white" aria-labelledby="why-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Why Flowcelerate</p>
+          <h2 id="why-heading" class="font-display font-800 text-3xl sm:text-4xl text-navy-900 text-balance">
+            The depth of a specialist. The perspective of an architect.
+          </h2>
+          <p class="mt-5 text-slate-600 leading-relaxed">
+            Most ServiceNow partners sell delivery capacity. What insurance and financial services firms need is architectural judgement — someone who understands both the platform and the regulatory context deeply enough to design solutions that hold up over time.
+          </p>
+          <p class="mt-4 text-slate-600 leading-relaxed">
+            As a sole practitioner, you work directly with the person who designed the solution. No account managers, no junior handoffs. The CTA you spoke with in scoping is the one writing the design document and reviewing the build.
+          </p>
+          <a
+            href="/about"
+            class="inline-flex items-center gap-2 mt-6 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
+          >
+            About this practice
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          {[
+            { number: '10+', label: 'Years on ServiceNow', sub: 'Since Fuji / Geneva' },
+            { number: 'CTA', label: 'Certified Technical Architect', sub: "ServiceNow's highest cert" },
+            { number: '100%', label: 'Insurance & FS focus', sub: 'No generalist engagements' },
+            { number: 'Solo', label: 'Practitioner model', sub: 'No junior handoffs' },
+          ].map((stat) => (
+            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+              <p class="font-display font-800 text-3xl text-navy-900">{stat.number}</p>
+              <p class="font-medium text-navy-900 text-sm mt-1">{stat.label}</p>
+              <p class="text-slate-500 text-xs mt-0.5">{stat.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes teasers -->
+  <section class="py-20 bg-slate-50" aria-labelledby="proof-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Outcomes</p>
+        <h2 id="proof-heading" class="font-display font-800 text-3xl sm:text-4xl text-navy-900">
+          Results from the field
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          {
+            industry: 'Global Reinsurer',
+            outcome: '60% reduction in CMDB data quality incidents',
+            context: 'CSDM implementation anchored on treaty processing and catastrophe modelling services',
+          },
+          {
+            industry: "Lloyd's Managing Agent",
+            outcome: '£2.1M in identified software cost avoidance',
+            context: 'SAM Pro deployment covering Oracle, Microsoft, and 40+ niche financial applications',
+          },
+          {
+            industry: 'Tier-1 P&C Carrier',
+            outcome: 'DORA operational resilience report automated from live CMDB data',
+            context: 'CSDM + Service Mapping + Flow Designer integration replacing quarterly manual exercise',
+          },
+        ].map((cs) => (
+          <div class="p-6 bg-white border border-slate-200 rounded-xl">
+            <span class="inline-block px-2.5 py-1 text-xs font-medium text-teal bg-teal/10 rounded-full mb-4">
+              {cs.industry}
+            </span>
+            <p class="font-display font-700 text-navy-900 text-lg leading-snug mb-2">{cs.outcome}</p>
+            <p class="text-slate-500 text-sm leading-relaxed">{cs.context}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 text-center">
+        <a
+          href="/case-studies"
+          class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
+        >
+          Read full case studies
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent insights -->
+  {posts.length > 0 && (
+    <section class="py-20 bg-white" aria-labelledby="insights-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-2">Insights</p>
+            <h2 id="insights-heading" class="font-display font-800 text-3xl text-navy-900">Latest thinking</h2>
+          </div>
+          <a
+            href="/insights"
+            class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
+          >
+            All posts
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              slug={post.id}
+              tags={post.data.tags}
+              readingTime={post.data.readingTime}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <CTASection />
+</Layout>

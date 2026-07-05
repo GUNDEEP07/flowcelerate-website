@@ -1,0 +1,107 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ChatWidget from '../components/ChatWidget.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = 'ServiceNow Certified Technical Architect specialising in ITSM, SAM Pro, CMDB/CSDM, and AI architecture for insurance and financial services enterprises.',
+  image = '/og-default.png',
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  noIndex = false,
+} = Astro.props;
+
+const siteTitle = title.includes('Flowcelerate') ? title : `${title} | Flowcelerate`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta -->
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noIndex && <meta name="robots" content="noindex,nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta property="og:site_name" content="Flowcelerate" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).href} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Calendly: loaded ONCE here so all pages/components can use it -->
+    <link
+      rel="stylesheet"
+      href="https://assets.calendly.com/assets/external/widget.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <script
+      src="https://assets.calendly.com/assets/external/widget.js"
+      type="text/javascript"
+      async
+      defer
+    ></script>
+
+    <!-- Calendly popup badge widget (site-wide floating button) -->
+    <script define:vars={{ accentColor: '#2563eb' }}>
+      window.addEventListener('load', function() {
+        if (typeof Calendly !== 'undefined') {
+          Calendly.initBadgeWidget({
+            url: 'https://calendly.com/YOUR-LINK/consult?hide_gdpr_banner=1',
+            text: 'Book a call',
+            color: accentColor,
+            textColor: '#ffffff',
+          });
+        } else {
+          // Retry once Calendly script has loaded
+          document.querySelector('script[src*="calendly"]')
+            ?.addEventListener('load', function() {
+              Calendly.initBadgeWidget({
+                url: 'https://calendly.com/YOUR-LINK/consult?hide_gdpr_banner=1',
+                text: 'Book a call',
+                color: accentColor,
+                textColor: '#ffffff',
+              });
+            });
+        }
+      });
+    </script>
+  </head>
+  <body class="bg-white text-slate-800 font-sans antialiased">
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+    <ChatWidget />
+  </body>
+</html>

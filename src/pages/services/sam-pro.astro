@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CTASection from '../../components/CTASection.astro';
+---
+
+<Layout
+  title="SAM Pro — Flowcelerate"
+  description="Software Asset Management on ServiceNow SAM Pro for insurance and financial services: entitlement reconciliation, publisher compliance, and audit defence."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="sam-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">SAM Pro</span>
+      </nav>
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">SAM Pro</p>
+        <h1 id="sam-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          Software licence compliance you can defend in an audit
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Insurance and financial services firms carry unusual software licence exposure — niche actuarial tools, multi-entity Oracle estates, and trading platform agreements with per-user restrictions that legal teams don't always understand. SAM Pro makes that exposure visible and manageable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white" aria-labelledby="sam-problem-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Problem</p>
+          <h2 id="sam-problem-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 text-balance">
+            Why software licence management is harder in financial services
+          </h2>
+          <div class="mt-6 space-y-4 text-slate-600 leading-relaxed">
+            <p>
+              Financial services firms operate across complex entity structures — holding companies, subsidiary carriers, Lloyd's syndicates, captives. Software licences don't always follow entity boundaries cleanly. Oracle, in particular, has aggressive audit programmes targeting financial services firms, and the exposure when a licence model doesn't map correctly to an entity structure can be substantial.
+            </p>
+            <p>
+              Actuarial and risk modelling tools — Igloo, Radar, Sequel, RMS, AIR — carry unusual licence structures that standard SAM tooling doesn't model well. Getting to an accurate effective licence position for an actuarial platform requires understanding both the licence agreement and the deployment topology.
+            </p>
+            <p>
+              Without ServiceNow SAM Pro implemented with domain-specific rules, most firms are flying blind on their actual licence compliance status until a publisher audit forces the issue.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Publisher Risk Areas</p>
+          {[
+            { publisher: 'Oracle', risk: 'Entity boundary exposure, processor licence under-declaration, Java SE compliance' },
+            { publisher: 'Microsoft', risk: 'Azure hybrid benefit misconfiguration, Teams/E3/E5 user assignment drift' },
+            { publisher: 'IBM', risk: 'Sub-capacity reporting obligations, ILMT deployment gaps' },
+            { publisher: 'SAP', risk: 'Indirect access on trading and actuarial system integrations' },
+            { publisher: 'Actuarial/Risk tools', risk: 'Per-seat vs concurrent restrictions, named-user drift across entities' },
+          ].map((item) => (
+            <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+              <p class="font-medium text-navy-900 text-sm">{item.publisher}</p>
+              <p class="text-slate-500 text-xs mt-0.5">{item.risk}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-slate-50" aria-labelledby="sam-approach-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Approach</p>
+        <h2 id="sam-approach-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900">
+          From entitlement to effective licence position
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {[
+          { title: 'Entitlement library build', body: 'Load and normalise all licence entitlements, including multi-entity agreements and upgrade assurance. Map entitlements to the correct legal entities.' },
+          { title: 'Discovery integration', body: 'Integrate SAM Pro with ServiceNow Discovery (or third-party discovery tooling) to establish authoritative deployment data. Resolve the inevitable conflicts between CMDB and SAM data.' },
+          { title: 'Publisher-specific metric modelling', body: 'Configure the licence metric models for your highest-risk publishers — Oracle processor rules, IBM sub-capacity, SAP indirect access. Each requires custom rule configuration.' },
+          { title: 'Effective licence position dashboard', body: 'Real-time view of your licence position by publisher and entity: positions, true-up shortfalls, and renewal forecast.' },
+          { title: 'Reclamation workflows', body: 'Automated identification and reclamation of unused software — typically returns 15–25% of licence cost in the first year.' },
+          { title: 'Audit response playbook', body: 'Documented process and pre-built reports for responding to publisher audit requests. Reduces audit response time from weeks to days.' },
+        ].map((item) => (
+          <div class="p-6 bg-white rounded-xl border border-slate-200">
+            <h3 class="font-display font-700 text-navy-900 mb-2">{item.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white" aria-labelledby="sam-outcomes-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Outcomes</p>
+      <h2 id="sam-outcomes-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 mb-8">
+        Typical results within 12 months of deployment
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+        {[
+          { metric: '15–30%', label: 'Licence cost reduction', note: 'Via reclamation and right-sizing' },
+          { metric: '£1–5M', label: 'Audit exposure identified', note: 'Typical range for enterprise FS estates' },
+          { metric: '<2 weeks', label: 'Audit response time', note: 'Down from 6–8 weeks manual process' },
+        ].map((o) => (
+          <div class="p-6 bg-accent-50 rounded-xl border border-accent-100">
+            <p class="font-display font-800 text-3xl text-accent mb-1">{o.metric}</p>
+            <p class="font-medium text-navy-900 text-sm">{o.label}</p>
+            <p class="text-slate-500 text-xs mt-1">{o.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    headline="Understand your true software licence exposure"
+    body="Book a focused 30-minute call to discuss your current SAM maturity and the highest-risk publishers in your estate."
+  />
+</Layout>

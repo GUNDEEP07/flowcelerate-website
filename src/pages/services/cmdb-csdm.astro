@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CTASection from '../../components/CTASection.astro';
+---
+
+<Layout
+  title="CMDB / CSDM — Flowcelerate"
+  description="CMDB and Common Service Data Model architecture for insurance and financial services on ServiceNow. Operational resilience, DORA compliance, and service topology."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="cmdb-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-white" aria-current="page">CMDB / CSDM</span>
+      </nav>
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">CMDB / CSDM</p>
+        <h1 id="cmdb-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          A CMDB your operational resilience team can rely on
+        </h1>
+        <p class="mt-6 text-slate-300 text-lg leading-relaxed">
+          Most insurance firms have a CMDB. Few have one accurate enough to answer the questions their regulators are asking about operational dependencies. The Common Service Data Model changes that — but only when it's implemented with purpose.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white" aria-labelledby="cmdb-problem-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Problem</p>
+          <h2 id="cmdb-problem-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 text-balance">
+            The CMDB as liability, not asset
+          </h2>
+          <div class="mt-6 space-y-4 text-slate-600 leading-relaxed">
+            <p>
+              The CMDB is the most frequently deprioritised component of a ServiceNow implementation — and the one with the most downstream consequences. When it's inaccurate, every process that depends on it is degraded: incident impact analysis, change risk assessment, SAM data, and — critically — operational resilience reporting.
+            </p>
+            <p>
+              Under DORA and Solvency II, insurers must demonstrate they understand the dependencies between their IT systems and their important business services. That demonstration requires a CMDB with documented service relationships, not just a server inventory. Regulators are no longer accepting "we have a CMDB" as an answer — they're asking what it contains and how current it is.
+            </p>
+            <p>
+              The Common Service Data Model gives you the framework. Implementing it correctly — with ownership, Discovery integration, and the right CI classes for an insurance estate — requires domain-specific expertise.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The CSDM Layers</p>
+          <div class="space-y-3">
+            {[
+              { layer: 'Business Application', subtitle: 'Design Domain', desc: 'Maps to core business capabilities: Treaty Reserving, Motor Claims, Underwriting.', border: 'border-blue-500/20 bg-blue-50/50', text: 'text-blue-900', badge: 'bg-blue-600' },
+              { layer: 'Application Service', subtitle: 'Operational Domain', desc: 'The logical software stacks (prod, dev) executing the application.', border: 'border-teal-500/20 bg-teal-50/50', text: 'text-teal-900', badge: 'bg-teal-600' },
+              { layer: 'Technical Service', subtitle: 'Support Domain', desc: 'The underlying servers, databases, and APIs configured by IT operations.', border: 'border-indigo-500/20 bg-indigo-50/50', text: 'text-indigo-900', badge: 'bg-indigo-600' },
+              { layer: 'Service Offering', subtitle: 'Consumption Domain', desc: 'Defines the service commitments, SLA bounds, and regulatory compliance targets.', border: 'border-sky-500/20 bg-sky-50/50', text: 'text-sky-900', badge: 'bg-sky-600' },
+            ].map((item, i) => (
+              <div class={`flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border ${item.border} transition-all duration-200 hover:-translate-x-1 hover:shadow-md`}>
+                <div class={`w-10 h-10 rounded-lg ${item.badge} text-white flex items-center justify-center font-display font-800 text-lg shadow-md shrink-0`}>
+                  {i + 1}
+                </div>
+                <div>
+                  <div class="flex items-baseline gap-2">
+                    <h4 class="font-display font-700 text-navy-900 text-base">{item.layer}</h4>
+                    <span class="text-slate-400 text-xs font-mono uppercase font-semibold">{item.subtitle}</span>
+                  </div>
+                  <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-sans">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-slate-50" aria-labelledby="cmdb-approach-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Approach</p>
+        <h2 id="cmdb-approach-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900">
+          Precision CSDM implementation, not boiling the ocean
+        </h2>
+        <p class="mt-4 text-slate-600">
+          The approach that consistently fails is trying to get the CMDB to 100% completeness before deriving value. The approach that works anchors on your five most critical business services, gets those right, and extends from there.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[
+          { title: 'Critical service identification', body: 'Define which business applications represent critical important business services under your operational resilience framework. Build CSDM from there outward.' },
+          { title: 'Discovery + Service Mapping', body: 'Deploy both Discovery (technical CI population) and Service Mapping (application topology) together. Running them independently creates reconciliation problems that compound over time.' },
+          { title: 'CI ownership assignment', body: 'Every CI class needs a designated owner accountable for data quality. Without this, the CMDB drifts within six months. Governance model included.' },
+          { title: 'Change Management integration', body: 'Wire change records to accurate CI relationships from day one. This is where the CMDB pays for itself — change risk assessment that surfaces real downstream impact.' },
+          { title: 'Health scoring', body: 'Configure CMDB Health dashboard metrics relevant to your estate — not the out-of-box defaults. Track completeness and staleness at the CI class level.' },
+          { title: 'Regulatory reporting', body: "Build the dashboards your operational resilience and risk teams need for DORA self-assessment and Solvency II ORSA reporting from live CMDB data." },
+        ].map((item) => (
+          <div class="p-6 bg-white rounded-xl border border-slate-200">
+            <h3 class="font-display font-700 text-navy-900 mb-2">{item.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white" aria-labelledby="cmdb-outcomes-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Outcomes</p>
+      <h2 id="cmdb-outcomes-heading" class="font-display font-700 text-2xl sm:text-3xl text-navy-900 mb-8">
+        What a CSDM-anchored CMDB enables
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+        {[
+          { metric: '60%', label: 'Reduction in CMDB data quality incidents', note: 'Measured against pre-implementation baseline' },
+          { metric: 'Live', label: 'DORA/Solvency II resilience reporting', note: 'Replacing quarterly manual spreadsheet exercise' },
+          { metric: '<15min', label: 'Major incident impact scoping', note: 'Down from hours of manual investigation' },
+        ].map((o) => (
+          <div class="p-6 bg-accent-50 rounded-xl border border-accent-100">
+            <p class="font-display font-800 text-3xl text-accent mb-1">{o.metric}</p>
+            <p class="font-medium text-navy-900 text-sm">{o.label}</p>
+            <p class="text-slate-500 text-xs mt-1">{o.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    headline="Assess your CMDB's regulatory readiness"
+    body="A focused discovery conversation will identify the gaps between your current CMDB state and what your operational resilience obligations actually require."
+  />
+</Layout>

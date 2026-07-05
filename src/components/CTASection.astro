@@ -1,0 +1,81 @@
+---
+interface Props {
+  headline?: string;
+  body?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  variant?: 'dark' | 'light' | 'accent';
+}
+
+const {
+  headline = 'Ready to move the needle on your ServiceNow platform?',
+  body = 'Let\'s talk architecture. Whether you\'re dealing with a fragile CMDB, stalled SAM rollout, or need a roadmap for AI-enabled service management, book a focused 30-minute discovery call.',
+  ctaLabel = 'Book a Discovery Call',
+  ctaHref = '/book',
+  secondaryLabel = 'View Services',
+  secondaryHref = '/services',
+  variant = 'dark',
+} = Astro.props;
+---
+
+<section
+  class:list={[
+    'relative overflow-hidden',
+    variant === 'dark' ? 'bg-navy-900' : variant === 'accent' ? 'bg-accent' : 'bg-slate-50',
+  ]}
+  aria-labelledby="cta-heading"
+>
+  {variant === 'dark' && (
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+  )}
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+    <h2
+      id="cta-heading"
+      class:list={[
+        'font-display font-800 text-3xl sm:text-4xl text-balance',
+        variant === 'light' ? 'text-navy-900' : 'text-white',
+      ]}
+    >
+      {headline}
+    </h2>
+
+    <p class:list={[
+      'mt-4 text-lg max-w-2xl mx-auto',
+      variant === 'light' ? 'text-slate-600' : 'text-slate-300',
+    ]}>
+      {body}
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+      <a
+        href={ctaHref}
+        class:list={[
+          'inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors duration-150',
+          variant === 'light'
+            ? 'text-white bg-accent hover:bg-accent-dark'
+            : 'text-navy-900 bg-white hover:bg-slate-100',
+        ]}
+      >
+        {ctaLabel}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <a
+        href={secondaryHref}
+        class:list={[
+          'inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors duration-150',
+          variant === 'light'
+            ? 'text-slate-700 border border-slate-200 hover:border-slate-300 hover:text-navy-900'
+            : 'text-slate-300 border border-white/20 hover:border-white/50 hover:text-white',
+        ]}
+      >
+        {secondaryLabel}
+      </a>
+    </div>
+  </div>
+</section>

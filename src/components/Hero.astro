@@ -1,0 +1,103 @@
+---
+interface Props {
+  badge?: string;
+  headline: string;
+  subheadline?: string;
+  ctaPrimary?: { href: string; label: string };
+  ctaSecondary?: { href: string; label: string };
+  variant?: 'dark' | 'light';
+}
+
+const {
+  badge,
+  headline,
+  subheadline,
+  ctaPrimary,
+  ctaSecondary,
+  variant = 'dark',
+} = Astro.props;
+---
+
+<section
+  class:list={[
+    'relative overflow-hidden',
+    variant === 'dark' ? 'bg-navy-900' : 'bg-white',
+  ]}
+  aria-labelledby="hero-heading"
+>
+  <!-- Background grid dots -->
+  {variant === 'dark' && (
+    <div class="absolute inset-0 grid-dots opacity-30 pointer-events-none" aria-hidden="true"></div>
+  )}
+
+  <!-- Accent gradient blob -->
+  {variant === 'dark' && (
+    <div
+      class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+      style="background: radial-gradient(circle at 70% 30%, rgba(37,99,235,0.15) 0%, transparent 60%);"
+      aria-hidden="true"
+    ></div>
+  )}
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+    <div class="max-w-3xl">
+      {badge && (
+        <div class="fade-up stagger-1 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/5 mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-teal-light" aria-hidden="true"></span>
+          <span class:list={[
+            'text-xs font-medium tracking-wide uppercase',
+            variant === 'dark' ? 'text-slate-300' : 'text-slate-600'
+          ]}>{badge}</span>
+        </div>
+      )}
+
+      <h1
+        id="hero-heading"
+        class:list={[
+          'fade-up stagger-2 font-display font-800 text-4xl sm:text-5xl lg:text-6xl leading-tight text-balance',
+          variant === 'dark' ? 'text-white' : 'text-navy-900',
+        ]}
+      >
+        <slot name="headline">{headline}</slot>
+      </h1>
+
+      {subheadline && (
+        <p class:list={[
+          'fade-up stagger-3 mt-6 text-lg sm:text-xl leading-relaxed max-w-2xl',
+          variant === 'dark' ? 'text-slate-300' : 'text-slate-600',
+        ]}>
+          {subheadline}
+        </p>
+      )}
+
+      {(ctaPrimary || ctaSecondary) && (
+        <div class="fade-up stagger-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 mt-8">
+          {ctaPrimary && (
+            <a
+              href={ctaPrimary.href}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white bg-accent hover:bg-accent-dark transition-colors duration-150 shadow-lg shadow-blue-900/30"
+            >
+              {ctaPrimary.label}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          )}
+          {ctaSecondary && (
+            <a
+              href={ctaSecondary.href}
+              class:list={[
+                'inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors duration-150',
+                variant === 'dark'
+                  ? 'text-slate-300 hover:text-white border border-white/20 hover:border-white/40'
+                  : 'text-slate-700 hover:text-navy-900 border border-slate-200 hover:border-slate-300',
+              ]}
+            >
+              {ctaSecondary.label}
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

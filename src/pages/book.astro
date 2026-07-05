@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CalendlyInline from '../components/CalendlyInline.astro';
+---
+
+<Layout
+  title="Book a Consultation — Flowcelerate"
+  description="Book a 30-minute ServiceNow architecture discovery call with a Certified Technical Architect specialising in insurance and financial services."
+>
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="book-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-teal-light uppercase tracking-wider mb-4">Book a Consultation</p>
+        <h1 id="book-heading" class="font-display font-800 text-4xl sm:text-5xl text-white text-balance">
+          30-minute discovery call
+        </h1>
+        <p class="mt-5 text-slate-300 text-lg leading-relaxed">
+          A focused conversation to understand your current ServiceNow platform state, what you're trying to achieve, and whether there's a fit for working together. No slides, no sales pitch.
+        </p>
+        <ul class="mt-6 space-y-2">
+          {[
+            'Tell me where you are and where you want to get to',
+            'I\'ll share what I\'ve seen work (and not work) in similar contexts',
+            'We\'ll agree whether a more structured engagement makes sense',
+          ].map((item) => (
+            <li class="flex items-start gap-2.5 text-slate-300 text-sm">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="mt-0.5 shrink-0" aria-hidden="true">
+                <path d="M2 7L5.5 10.5L12 3.5" stroke="#14b8a6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calendly embed -->
+  <section class="py-16 bg-slate-50" aria-labelledby="calendly-heading">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 id="calendly-heading" class="sr-only">Schedule your discovery call</h2>
+      <CalendlyInline minHeight="750px" />
+    </div>
+  </section>
+
+  <!-- What to expect -->
+  <section class="py-16 bg-white" aria-labelledby="expect-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 id="expect-heading" class="font-display font-700 text-xl text-navy-900 mb-8">What happens after the call</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+        {[
+          { step: '1', title: 'Written summary', body: 'I\'ll send a short written summary of what we discussed and the key questions or risks I identified.' },
+          { step: '2', title: 'Scope proposal (if relevant)', body: 'If an engagement makes sense, I\'ll follow up with a concise scope and indicative cost within 48 hours.' },
+          { step: '3', title: 'No pressure', body: 'No follow-up sales sequences. If the timing isn\'t right, I\'ll tell you that directly.' },
+        ].map((item) => (
+          <div class="flex gap-4">
+            <div class="w-8 h-8 bg-accent text-white text-sm font-bold rounded-full flex items-center justify-center shrink-0">
+              {item.step}
+            </div>
+            <div>
+              <h3 class="font-medium text-navy-900 text-sm">{item.title}</h3>
+              <p class="text-slate-500 text-xs mt-1 leading-relaxed">{item.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

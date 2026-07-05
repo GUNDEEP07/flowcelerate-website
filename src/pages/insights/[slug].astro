@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout
+  title={`${post.data.title} — Flowcelerate`}
+  description={post.data.description}
+>
+  <!-- Article header -->
+  <section class="bg-navy-900 relative overflow-hidden" aria-labelledby="post-heading">
+    <div class="absolute inset-0 grid-dots opacity-20 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-8" aria-label="Breadcrumb">
+        <a href="/insights" class="hover:text-white transition-colors">Insights</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-slate-300 line-clamp-1">Article</span>
+      </nav>
+
+      {post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          {post.data.tags.map((tag) => (
+            <a
+              href={`/insights?tag=${encodeURIComponent(tag)}`}
+              class="px-2.5 py-1 text-xs font-medium text-teal-light bg-teal/10 rounded-full border border-teal/20 hover:bg-teal/20 transition-colors"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <h1 id="post-heading" class="font-display font-800 text-3xl sm:text-4xl lg:text-5xl text-white text-balance leading-tight">
+        {post.data.title}
+      </h1>
+
+      <div class="flex items-center gap-4 mt-6 text-sm text-slate-400">
+        <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+        {post.data.readingTime && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>{post.data.readingTime} min read</span>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Article body -->
+  <article class="py-16 bg-white" aria-labelledby="post-heading">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-slate prose-lg max-w-none
+        prose-headings:font-display prose-headings:font-700 prose-headings:text-navy-900 prose-headings:tracking-tight
+        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
+        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+        prose-p:text-slate-700 prose-p:leading-relaxed
+        prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-navy-900
+        prose-code:text-accent prose-code:bg-accent-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
+        prose-blockquote:border-l-accent prose-blockquote:text-slate-600 prose-blockquote:not-italic
+        prose-ul:text-slate-700
+        prose-li:my-1
+        prose-table:text-sm prose-th:text-navy-900 prose-th:font-semibold prose-td:text-slate-700
+        prose-hr:border-slate-200
+      ">
+        <Content />
+      </div>
+
+      <!-- Author footer -->
+      <div class="mt-16 pt-8 border-t border-slate-100 flex items-center gap-4">
+        <div class="w-12 h-12 bg-navy-900 rounded-full flex items-center justify-center shrink-0">
+          <svg width="22" height="22" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3 9L7.5 4.5L12 9L7.5 13.5L3 9Z" fill="white" opacity="0.6"/>
+            <path d="M7.5 9L12 4.5L16.5 9L12 13.5L7.5 9Z" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <p class="font-medium text-navy-900 text-sm">[Your Name], CTA</p>
+          <p class="text-slate-500 text-xs">Independent ServiceNow Architect · Flowcelerate</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Back to insights -->
+  <div class="bg-slate-50 border-t border-slate-100 py-8">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a
+        href="/insights"
+        class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M11 7H3M7 3L3 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Insights
+      </a>
+    </div>
+  </div>
+
+  <CTASection
+    headline="Found this useful?"
+    body="If you're working through a similar challenge on your ServiceNow platform, book a focused 30-minute call to discuss your specific situation."
+    ctaLabel="Book a Call"
+    secondaryLabel="View Services"
+    secondaryHref="/services"
+  />
+</Layout>

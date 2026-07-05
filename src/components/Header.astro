@@ -1,0 +1,123 @@
+---
+const navLinks = [
+  { href: '/services', label: 'Services' },
+  { href: '/training', label: 'Training' },
+  { href: '/case-studies', label: 'Case Studies' },
+  { href: '/insights', label: 'Insights' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2.5 group" aria-label="Flowcelerate home">
+        <div class="w-8 h-8 bg-navy-900 rounded-lg flex items-center justify-center group-hover:bg-accent transition-colors duration-200">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3 9L7.5 4.5L12 9L7.5 13.5L3 9Z" fill="white" opacity="0.7"/>
+            <path d="M7.5 9L12 4.5L16.5 9L12 13.5L7.5 9Z" fill="white"/>
+          </svg>
+        </div>
+        <span class="font-display font-700 text-lg text-navy-900 tracking-tight">
+          Flowcelerate
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-1">
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'px-3.5 py-2 text-sm font-medium rounded-md transition-colors duration-150',
+              isActive(href)
+                ? 'text-accent bg-accent-50'
+                : 'text-slate-600 hover:text-navy-900 hover:bg-slate-50'
+            ]}
+            aria-current={isActive(href) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+
+      <!-- CTA -->
+      <div class="hidden md:flex items-center gap-3">
+        <a
+          href="/book"
+          class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors duration-150"
+        >
+          Book a Consultation
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 rounded-md text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition-colors"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <svg id="menu-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3 5H17M3 10H17M3 15H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <svg id="close-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" class="hidden" aria-hidden="true">
+          <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile nav -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4" role="menu">
+      <div class="flex flex-col gap-1 pt-2 border-t border-slate-100">
+        {navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'px-3 py-2.5 text-sm font-medium rounded-md transition-colors',
+              isActive(href)
+                ? 'text-accent bg-accent-50'
+                : 'text-slate-700 hover:text-navy-900 hover:bg-slate-50'
+            ]}
+            role="menuitem"
+          >
+            {label}
+          </a>
+        ))}
+        <a
+          href="/book"
+          class="mt-2 px-3 py-2.5 text-sm font-semibold text-white bg-accent hover:bg-accent-dark rounded-lg text-center transition-colors"
+        >
+          Book a Consultation
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Spacer so content doesn't hide under fixed header -->
+<div class="h-16" aria-hidden="true"></div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(!menu?.classList.contains('hidden')));
+    menuIcon?.classList.toggle('hidden', isOpen);
+    closeIcon?.classList.toggle('hidden', !isOpen);
+  });
+</script>

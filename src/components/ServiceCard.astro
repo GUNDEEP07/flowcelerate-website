@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  tags?: string[];
+}
+
+const { title, description, href, icon, tags = [] } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group block p-6 bg-white border border-slate-200 rounded-xl hover:border-accent/40 hover:shadow-lg hover:shadow-blue-500/8 transition-all duration-200"
+  aria-label={`Learn more about ${title}`}
+>
+  <div class="w-11 h-11 bg-accent-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent group-hover:text-white transition-colors duration-200">
+    <span class="text-accent group-hover:text-white text-xl transition-colors duration-200" aria-hidden="true">
+      {icon}
+    </span>
+  </div>
+
+  <h3 class="font-display font-700 text-navy-900 text-lg mb-2 group-hover:text-accent transition-colors duration-200">
+    {title}
+  </h3>
+
+  <p class="text-slate-600 text-sm leading-relaxed mb-4">{description}</p>
+
+  {tags.length > 0 && (
+    <div class="flex flex-wrap gap-1.5 mb-4">
+      {tags.map((tag) => (
+        <span class="px-2 py-0.5 text-xs font-medium text-slate-500 bg-slate-100 rounded-full">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
+
+  <span class="inline-flex items-center gap-1 text-sm font-medium text-accent group-hover:gap-2 transition-all duration-150">
+    Learn more
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+</a>

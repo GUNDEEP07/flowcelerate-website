@@ -1,0 +1,156 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import TrackCard from '../../components/TrackCard.astro';
+import PlaybookCard from '../../components/PlaybookCard.astro';
+import WorkshopCard from '../../components/WorkshopCard.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getCollection } from 'astro:content';
+
+const allPlaybooks = (await getCollection('playbooks', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const allWorkshops = (await getCollection('workshops', ({ data }) => !data.draft))
+  .sort((a, b) => (a.data.nextDate?.valueOf() ?? 0) - (b.data.nextDate?.valueOf() ?? 0));
+
+const practitionerPlaybooks = allPlaybooks.filter(p => p.data.track === 'practitioner');
+const leadershipPlaybooks   = allPlaybooks.filter(p => p.data.track === 'leadership');
+const practitionerWorkshops = allWorkshops.filter(w => w.data.track === 'practitioner');
+const leadershipWorkshops   = allWorkshops.filter(w => w.data.track === 'leadership');
+
+const featuredPlaybooks = allPlaybooks.slice(0, 3);
+const upcomingWorkshops = allWorkshops.filter(w => w.data.openEnrollment).slice(0, 2);
+---
+
+<Layout
+  title="Training — Flowcelerate"
+  description="ServiceNow training for insurance and financial services practitioners and IT leaders. Playbooks, workshops, and courses built for regulated environments."
+>
+  <Hero
+    badge="Training & Education"
+    headline="ServiceNow training built for insurance and financial services"
+    subheadline="Playbooks, workshops, and courses designed for the platform challenges and regulatory context of insurance carriers, reinsurers, and FS firms."
+    ctaPrimary={{ href: '/training/playbooks', label: 'Browse Playbooks' }}
+    ctaSecondary={{ href: '/training/workshops', label: 'View Workshops' }}
+    variant="dark"
+  />
+
+  <!-- Tracks -->
+  <section class="py-20 bg-slate-50" aria-labelledby="tracks-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10">
+        <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Two tracks</p>
+        <h2 id="tracks-heading" class="font-display font-800 text-3xl sm:text-4xl text-navy-900 text-balance">
+          Find the content built for your role
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <TrackCard
+          track="practitioner"
+          title="Practitioner Track"
+          description="Deep technical guides for ServiceNow administrators, developers, and architects doing the work on the platform. CSDM implementation, SAM Pro configuration, Flow Designer, and agentic automation."
+          href="/training/practitioners"
+          playbookCount={practitionerPlaybooks.length}
+          workshopCount={practitionerWorkshops.length}
+        />
+        <TrackCard
+          track="leadership"
+          title="Leadership Track"
+          description="Strategic and regulatory framing for heads of IT, directors, and CIOs. Understand what good ServiceNow architecture looks like, what DORA requires, and how to evaluate your platform's fitness for purpose."
+          href="/training/leaders"
+          playbookCount={leadershipPlaybooks.length}
+          workshopCount={leadershipWorkshops.length}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured playbooks -->
+  {featuredPlaybooks.length > 0 && (
+    <section class="py-20 bg-white" aria-labelledby="playbooks-feat-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-2">Playbooks</p>
+            <h2 id="playbooks-feat-heading" class="font-display font-800 text-3xl text-navy-900">Free PDF guides</h2>
+          </div>
+          <a href="/training/playbooks" class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-dark transition-colors">
+            All playbooks
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {featuredPlaybooks.map(p => (
+            <PlaybookCard
+              title={p.data.title}
+              description={p.data.description}
+              track={p.data.track}
+              topics={p.data.topics}
+              pages={p.data.pages}
+              href={`/training/playbooks/${p.id}`}
+              gated={p.data.gated}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Upcoming workshops -->
+  {upcomingWorkshops.length > 0 && (
+    <section class="py-20 bg-slate-50" aria-labelledby="workshops-feat-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-2">Workshops</p>
+            <h2 id="workshops-feat-heading" class="font-display font-800 text-3xl text-navy-900">Upcoming live sessions</h2>
+          </div>
+          <a href="/training/workshops" class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-dark transition-colors">
+            All workshops
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {upcomingWorkshops.map(w => (
+            <WorkshopCard
+              title={w.data.title}
+              description={w.data.description}
+              track={w.data.track}
+              format={w.data.format}
+              duration={w.data.duration}
+              price={w.data.price}
+              maxParticipants={w.data.maxParticipants}
+              nextDate={w.data.nextDate}
+              openEnrollment={w.data.openEnrollment}
+              href={`/training/workshops/${w.id}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Newsletter -->
+  <section class="py-20 bg-white" aria-labelledby="nl-heading">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3 text-center">Community</p>
+      <h2 id="nl-heading" class="font-display font-800 text-3xl text-navy-900 text-center mb-8 text-balance">
+        Monthly insights, straight to your inbox
+      </h2>
+      <NewsletterSignup />
+    </div>
+  </section>
+
+  <CTASection
+    headline="Need something bespoke?"
+    body="The training catalogue covers the most common challenges. If you need a workshop designed around your specific platform and regulatory context, let's talk."
+    ctaLabel="Book a Discovery Call"
+    secondaryLabel="View Services"
+    secondaryHref="/services"
+  />
+</Layout>
