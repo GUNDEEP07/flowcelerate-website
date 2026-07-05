@@ -48,20 +48,32 @@ import CTASection from '../../components/CTASection.astro';
           </div>
         </div>
 
-        <div class="space-y-4">
-          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Publisher Risk Areas</p>
-          {[
-            { publisher: 'Oracle', risk: 'Entity boundary exposure, processor licence under-declaration, Java SE compliance' },
-            { publisher: 'Microsoft', risk: 'Azure hybrid benefit misconfiguration, Teams/E3/E5 user assignment drift' },
-            { publisher: 'IBM', risk: 'Sub-capacity reporting obligations, ILMT deployment gaps' },
-            { publisher: 'SAP', risk: 'Indirect access on trading and actuarial system integrations' },
-            { publisher: 'Actuarial/Risk tools', risk: 'Per-seat vs concurrent restrictions, named-user drift across entities' },
-          ].map((item) => (
-            <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
-              <p class="font-medium text-navy-900 text-sm">{item.publisher}</p>
-              <p class="text-slate-500 text-xs mt-0.5">{item.risk}</p>
-            </div>
-          ))}
+        <div>
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Publisher Compliance Risks</p>
+          <div class="space-y-3.5">
+            {[
+              { publisher: 'Oracle', risk: 'Processor count under-declaration & Java SE audit liability.', solution: 'Automated processor-mapping rules configured in SAM Pro.' },
+              { publisher: 'Microsoft', risk: 'Azure Hybrid Benefit drift & user license assignment waste.', solution: 'Reconciliation dashboards identifying unassigned E5 allocations.' },
+              { publisher: 'IBM', risk: 'ILMT sub-capacity reporting errors leading to full-capacity billing.', solution: 'Integrate ILMT metrics directly into ServiceNow compliance engine.' },
+              { publisher: 'SAP', risk: 'Indirect access liabilities on external platform integrations.', solution: 'Digital Access modeling rules to analyze system-to-system connections.' },
+              { publisher: 'Actuarial Tools', risk: 'Named-user restrictions breached by cross-entity desk sharing.', solution: 'Custom software models mapping concurrent sessions per entity.' },
+            ].map((item) => (
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-accent/15 hover:shadow-sm transition-all duration-150">
+                <div class="flex items-center justify-between border-b border-slate-200/60 pb-2 mb-2">
+                  <span class="font-display font-700 text-navy-900 text-sm">{item.publisher}</span>
+                  <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-700 bg-red-50 border border-red-100 rounded-md">Audit Target</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                  <div class="text-slate-500 font-sans">
+                    <strong class="text-slate-700 font-semibold block sm:inline">Risk:</strong> {item.risk}
+                  </div>
+                  <div class="text-navy-900 font-sans sm:border-l sm:border-slate-200 sm:pl-3">
+                    <strong class="text-accent font-semibold block sm:inline">Defense:</strong> {item.solution}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -45,23 +45,88 @@ const upcomingWorkshops = allWorkshops.filter(w => w.data.openEnrollment).slice(
           Find the content built for your role
         </h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <TrackCard
-          track="practitioner"
-          title="Practitioner Track"
-          description="Deep technical guides for ServiceNow administrators, developers, and architects doing the work on the platform. CSDM implementation, SAM Pro configuration, Flow Designer, and agentic automation."
-          href="/training/practitioners"
-          playbookCount={practitionerPlaybooks.length}
-          workshopCount={practitionerWorkshops.length}
-        />
-        <TrackCard
-          track="leadership"
-          title="Leadership Track"
-          description="Strategic and regulatory framing for heads of IT, directors, and CIOs. Understand what good ServiceNow architecture looks like, what DORA requires, and how to evaluate your platform's fitness for purpose."
-          href="/training/leaders"
-          playbookCount={leadershipPlaybooks.length}
-          workshopCount={leadershipWorkshops.length}
-        />
+      <!-- Track Comparison Table Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+        <!-- Practitioner Track Card -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 hover:border-accent/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent-50 rounded-full mb-5">
+              <span class="w-1.5 h-1.5 bg-accent rounded-full" aria-hidden="true"></span>
+              <span class="text-xs font-bold text-accent uppercase tracking-wider">Practitioner Track</span>
+            </div>
+            <h3 class="font-display font-800 text-navy-900 text-2xl mb-4">Hands-On Platform Engineers</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 font-sans">
+              Deep-dive technical instruction for ServiceNow administrators, developers, and architects who write the code, configure CSDM, and implement Flow Designer.
+            </p>
+            <ul class="space-y-3 mb-8 border-t border-slate-100 pt-6">
+              {[
+                { label: 'Target Roles', val: 'Architects, Developers, CMDB Leads' },
+                { label: 'Core Focus', val: 'CSDM classes, S3/SES APIs, Flow rules' },
+                { label: 'Practical Takeaway', val: 'Ready-to-deploy update sets & XML blueprints' }
+              ].map(item => (
+                <li class="flex flex-col sm:flex-row sm:justify-between text-xs sm:text-sm font-sans">
+                  <span class="text-slate-400 font-semibold">{item.label}</span>
+                  <span class="text-navy-900 font-bold sm:text-right mt-0.5 sm:mt-0">{item.val}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="flex items-center justify-between border-t border-slate-100 pt-6">
+            <span class="text-xs text-slate-400 font-sans font-semibold">
+              {practitionerPlaybooks.length} playbooks · {practitionerWorkshops.length} workshops
+            </span>
+            <a
+              href="/training/practitioners"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-md shadow-blue-500/10"
+            >
+              Explore Track
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Leadership Track Card -->
+        <div class="bg-navy-950 border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-accent/40 hover:shadow-lg transition-all duration-200 flex flex-col justify-between text-white relative overflow-hidden">
+          <div class="absolute -right-16 -top-16 w-36 h-36 rounded-full bg-accent/20 blur-2xl pointer-events-none" aria-hidden="true"></div>
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-full mb-5 border border-white/10 relative z-10">
+              <span class="w-1.5 h-1.5 bg-teal-light rounded-full" aria-hidden="true"></span>
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Leadership Track</span>
+            </div>
+            <h3 class="font-display font-800 text-white text-2xl mb-4 relative z-10">Strategic & IT Decision Makers</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6 font-sans relative z-10">
+              Governance and architectural blueprints for CIOs, risk directors, and heads of IT. Understand what good CMDB looks like and how to clear internal audit boundaries.
+            </p>
+            <ul class="space-y-3 mb-8 border-t border-white/5 pt-6 relative z-10">
+              {[
+                { label: 'Target Roles', val: 'CIOs, IT Directors, CROs, Risk Managers' },
+                { label: 'Core Focus', val: 'DORA compliance, audit defense, ORSA reporting' },
+                { label: 'Practical Takeaway', val: 'Platform governance templates & risk matrix' }
+              ].map(item => (
+                <li class="flex flex-col sm:flex-row sm:justify-between text-xs sm:text-sm font-sans">
+                  <span class="text-slate-400 font-semibold">{item.label}</span>
+                  <span class="text-white font-bold sm:text-right mt-0.5 sm:mt-0">{item.val}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="flex items-center justify-between border-t border-white/5 pt-6 relative z-10">
+            <span class="text-xs text-slate-400 font-sans font-semibold">
+              {leadershipPlaybooks.length} playbooks · {leadershipWorkshops.length} workshops
+            </span>
+            <a
+              href="/training/leaders"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-navy-950 bg-white hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              Explore Track
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6H10M6 2L10 6L6 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>

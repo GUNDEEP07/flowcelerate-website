@@ -50,22 +50,24 @@ import CTASection from '../../components/CTASection.astro';
         </div>
 
         <div>
-          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">Common Symptoms</p>
-          <div class="space-y-3">
+          <p class="text-sm font-semibold text-accent uppercase tracking-wider mb-3">The Transformation</p>
+          <div class="space-y-3.5">
             {[
-              'SLAs that bear no relation to regulatory notification windows',
-              'Manual spreadsheet tracking for major incident comms',
-              'CAB process that treats all changes identically regardless of risk',
-              'No automated linkage between incidents and affected business services',
-              'Problem management used as a ticket parking lot rather than a structured RCA process',
-              'Request fulfilment workflows that bypass the CMDB entirely',
-            ].map((symptom) => (
-              <div class="flex items-start gap-3 p-3.5 bg-slate-50 rounded-lg border border-slate-200">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0 mt-0.5" aria-hidden="true">
-                  <circle cx="8" cy="8" r="7" stroke="#f59e0b" stroke-width="1.5"/>
-                  <path d="M8 5V8.5M8 11H8.01" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span class="text-sm text-slate-700">{symptom}</span>
+              { before: 'SLAs calibrated to generic ITIL targets', after: 'SLA timers hardcoded to PRA/FCA 4-hour notification windows' },
+              { before: 'Manual spreadsheet tracking for major incident communications', after: 'Automated Flow Designer communication loops synced with risk teams' },
+              { before: 'CAB reviews all changes identically regardless of risk profile', after: 'Tiered change paths with automated models for standard changes' },
+              { before: 'No linkage between technical incidents and business services', after: 'CSDM-grounded CMDB maps incident impact in real-time' },
+              { before: 'Problem records used as ticket parking slots', after: 'Structured Root Cause Analysis (RCA) loops feeding dev backlog' },
+            ].map((item) => (
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-accent/15 hover:shadow-sm transition-all duration-150">
+                <div class="flex gap-2">
+                  <span class="text-red-500 font-bold text-sm shrink-0" aria-hidden="true">✕</span>
+                  <span class="text-slate-500 text-xs sm:text-sm font-medium font-sans">{item.before}</span>
+                </div>
+                <div class="flex gap-2 border-t sm:border-t-0 sm:border-l border-slate-200 pt-2 sm:pt-0 sm:pl-3">
+                  <span class="text-emerald-500 font-bold text-sm shrink-0" aria-hidden="true">✓</span>
+                  <span class="text-navy-900 text-xs sm:text-sm font-semibold font-sans">{item.after}</span>
+                </div>
               </div>
             ))}
           </div>
